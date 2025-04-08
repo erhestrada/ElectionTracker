@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel File Reader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+    <input type="file" id="file-input" />
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var data = event.target.result;
+                var workbook = XLSX.read(data, { type: 'binary' });
+
+                // Initialize an object to store all sheets' data
+                var allSheetsData = {};
+
+                // Loop through each sheet in the workbook
+                workbook.SheetNames.forEach(function(sheetName) {
+                    var sheet = workbook.Sheets[sheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(sheet);
+                    allSheetsData[sheetName] = jsonData;
+                });
+
+                // Display all sheets' data
+                document.getElementById('output').textContent = JSON.stringify(allSheetsData, null, 2);
+            };
+
+            reader.readAsBinaryString(file);
+        });
+    </script>
+</body>
+</html>

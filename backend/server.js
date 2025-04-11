@@ -37,6 +37,12 @@ app.get('/retrieveUsers', (req, res) => {
   });
 });
 
+//---------------
+
+app.get('/results/:candidate', (req, res) => {
+  console.log('candidate endpoint hit');
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

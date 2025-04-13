@@ -20,6 +20,7 @@ db.run('CREATE TABLE IF NOT EXISTS "2024_presidential_general_election" (id INTE
 
 app.get('/results', (req, res) => {
   console.log('results endpoint hit');
+  res.json({ message: 'Success!' });
 });
 
 // Start server

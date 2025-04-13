@@ -34,7 +34,7 @@ app.get('/results/:state', (req, res) => {
 
 // /results/:candidate/popular, electoral
 
-// write-ins, total can be used as candidates
+// none, write-ins, total can be used as candidates
 app.get('/results/:state/:candidate', (req, res) => {
   console.log('candidate endpoint');
   res.json({message: 'candidate endpoint'});

@@ -28,6 +28,11 @@ app.get('/results/:state', (req, res) => {
   res.json({message: 'state endpoint'});
 });
 
+app.get('/results/:state/candidate', (req, res) => {
+  console.log('candidate endpoint');
+  res.json({message: 'candidate endpoint'});
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

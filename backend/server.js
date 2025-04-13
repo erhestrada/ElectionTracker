@@ -23,6 +23,11 @@ app.get('/results', (req, res) => {
   res.json({ message: 'results endpoint hit' });
 });
 
+app.get('/results/:state', (req, res) => {
+  console.log('state endpoint');
+  res.json({message: 'state endpoint'});
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

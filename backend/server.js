@@ -23,10 +23,16 @@ app.get('/results', (req, res) => {
   res.json({ message: 'results endpoint hit' });
 });
 
+// /results/popular, electoral
+
 app.get('/results/:state', (req, res) => {
   console.log('state endpoint');
   res.json({message: 'state endpoint'});
 });
+
+// /results/:state/popular, electoral
+
+// /results/:candidate/popular, electoral
 
 app.get('/results/:state/:candidate', (req, res) => {
   console.log('candidate endpoint');

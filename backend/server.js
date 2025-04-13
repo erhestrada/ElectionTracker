@@ -32,7 +32,7 @@ app.get('/results/:state', (req, res) => {
 
 // /results/:state/popular, electoral
 
-// /results/:candidate/popular, electoral
+// /results/:candidate/popular, electoral; popular/percent
 
 // none, write-ins, total can be used as candidates
 app.get('/results/:state/:candidate', (req, res) => {

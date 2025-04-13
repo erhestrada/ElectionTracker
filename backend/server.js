@@ -33,6 +33,11 @@ app.get('/results/:state/:candidate', (req, res) => {
   res.json({message: 'candidate endpoint'});
 });
 
+app.get('/results/:state/:candidate/popular', (req, res) => {
+  console.log('popular vote state candidate endpoint');
+  res.json({message: 'popular vote state candidate endpoint'});
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

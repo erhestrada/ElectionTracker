@@ -19,6 +19,8 @@ db.run('CREATE TABLE IF NOT EXISTS states (state_code CHAR(2) PRIMARY KEY, state
 // create candidates table
 db.run('CREATE TABLE candidates (candidate_id INT PRIMARY KEY, name VARCHAR(100))');
 
+// create votes table
+db. run('CREATE TABLE votes (state_code CHAR(2), candidate_id INT, vote_count BIGINT, FOREIGN KEY (state_code) REFERENCES states(state_code), FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id));');
 //db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');
 //db.run('CREATE TABLE IF NOT EXISTS "2024_presidential_general_election" (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');
 

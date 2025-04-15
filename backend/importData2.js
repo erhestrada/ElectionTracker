@@ -18,8 +18,13 @@ const nonCandidateColumns = [
 ];
 
 // Candidate columns
-const candidateColumns = headers.filter(col => !nonCandidateColumns.includes(col));
-
+const candidateColumns = [
+    'AYYADURAI', 'BOWMAN', 'DE LA CRUZ', 'DUNCAN', 'EBKE', 'EVERYLOVE', 'FRUIT', 'GARRITY',
+    'HARRIS', 'HUBER', 'KENNEDY', 'KISHORE', 'OLIVER', 'PRESTON', 'SKOUSEN', 'SONSKI',
+    'STEIN', 'STODDEN', 'SUPREME', 'TERRY', 'TRUMP', 'WELLS', 'WEST', 'WOOD',
+    'NONE OF THESE CANDIDATES', 'WRITE-INS (SCATTERED)'
+  ].map(name => normalizeKey(name));
+  
 // Assign candidate IDs
 const candidateMap = candidateColumns.reduce((acc, name, idx) => {
   acc[name] = idx + 1;

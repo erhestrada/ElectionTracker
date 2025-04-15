@@ -115,8 +115,33 @@ app.get('/results/:state/:candidate/popular', (req, res) => {
 });
 
 app.get('/results/:state/:candidate/electoral', (req, res) => {
-  console.log('electoral vote state candidate endpoint');
-  res.json({message: 'electoral vote state candidate endpoint'});
+  const stateCode = req.params.state.toUpperCase();
+  const candidateName = req.params.candidate.toUpperCase();
+
+  const query = `
+    SELECT ev.vote_count
+    FROM electoral_votes ev
+    JOIN candidates c ON ev.candidate_id = c.candidate_id
+    WHERE ev.state_code = ?
+      AND UPPER(c.candidate_name) = ?
+  `;
+
+  db.get(query, [stateCode, candidateName], (err, row) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (!row) {
+      return res.status(404).json({ error: 'No electoral vote data found for this candidate in this state.' });
+    }
+
+    res.json({
+      state: stateCode,
+      candidate: candidateName,
+      electoral_votes: row.vote_count
+    });
+  });
 });
 
 // Start server

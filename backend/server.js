@@ -13,13 +13,13 @@ app.use(express.json());
 // Setup SQLite database
 const db = new sqlite3.Database('./data.db');
 
-//db.run('DROP TABLE 2024_presidential_general_election');
+//db.run('DROP TABLE candidates');
 
-// create states table
+// create states table: state_code | state_name | electoral_votes
 db.run('CREATE TABLE IF NOT EXISTS states (state_code CHAR(2) PRIMARY KEY, state_name VARCHAR(100), electoral_votes INTEGER)');
 
-// create candidates table
-db.run('CREATE TABLE IF NOT EXISTS candidates (candidate_id INT PRIMARY KEY, name VARCHAR(100))');
+// create candidates table: candidate_id | candidate_name
+db.run('CREATE TABLE IF NOT EXISTS candidates (candidate_id INT PRIMARY KEY, candidate_name VARCHAR(100))');
 
 // create popular votes table
 db. run('CREATE TABLE IF NOT EXISTS popular_votes (state_code CHAR(2), candidate_id INT, vote_count BIGINT, FOREIGN KEY (state_code) REFERENCES states(state_code), FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id));');
@@ -30,9 +30,6 @@ db. run('CREATE TABLE IF NOT EXISTS electoral_votes (state_code CHAR(2), candida
 // create state electoral votes table
 db. run('CREATE TABLE IF NOT EXISTS state_electoral_votes (state_code CHAR(2), vote_count BIGINT, FOREIGN KEY (state_code) REFERENCES states(state_code))');
 
-
-
-//db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');
 //db.run('CREATE TABLE IF NOT EXISTS "2024_presidential_general_election" (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');
 
 //---------------

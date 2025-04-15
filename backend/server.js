@@ -25,6 +25,10 @@ db. run('CREATE TABLE popular_votes (state_code CHAR(2), candidate_id INT, vote_
 // create electoral votes table
 db. run('CREATE TABLE electoral_votes (state_code CHAR(2), candidate_id INT, vote_count BIGINT, FOREIGN KEY (state_code) REFERENCES states(state_code), FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id));');
 
+// create state electoral votes table
+db. run('CREATE TABLE state_electoral_votes (state_code CHAR(2), vote_count BIGINT, FOREIGN KEY (state_code) REFERENCES states(state_code))');
+
+
 
 //db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');
 //db.run('CREATE TABLE IF NOT EXISTS "2024_presidential_general_election" (id INTEGER PRIMARY KEY, uuid TEXT UNIQUE NOT NULL)');

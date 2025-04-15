@@ -13,7 +13,8 @@ app.use(express.json());
 // Setup SQLite database
 const db = new sqlite3.Database('./data.db');
 
-//db.run('DROP TABLE candidates');
+//db.run('DROP TABLE users');
+//db.run('DROP TABLE election_results'); // can still use this for /results endpoint
 
 // create states table: state_code | state_name | electoral_votes
 db.run('CREATE TABLE IF NOT EXISTS states (state_code CHAR(2) PRIMARY KEY, state_name VARCHAR(100), electoral_votes INTEGER)');
@@ -36,7 +37,7 @@ db. run('CREATE TABLE IF NOT EXISTS state_electoral_votes (state_code CHAR(2), v
 
 app.get('/results', (req, res) => {
   console.log('results endpoint hit');
-  db.all('SELECT * FROM 2024_presidential_general_election_results', (err, rows) => {
+  db.all('SELECT * FROM election_results', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });

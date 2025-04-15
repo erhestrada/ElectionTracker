@@ -47,8 +47,31 @@ app.get('/results', (req, res) => {
 // /results/popular, electoral
 
 app.get('/results/:state', (req, res) => {
-  console.log('state endpoint');
-  res.json({message: 'state endpoint'});
+  const stateCode = req.params.state.toUpperCase();
+
+  const query = `
+    SELECT c.candidate_name, pv.vote_count
+    FROM popular_votes pv
+    JOIN candidates c ON pv.candidate_id = c.candidate_id
+    WHERE pv.state_code = ?
+    ORDER BY pv.vote_count DESC
+  `;
+
+  db.all(query, [stateCode], (err, rows) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'No results found for the specified state.' });
+    }
+
+    res.json({
+      state: stateCode,
+      results: rows
+    });
+  });
 });
 
 // /results/:state/popular, electoral

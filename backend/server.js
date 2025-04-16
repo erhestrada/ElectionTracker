@@ -110,8 +110,33 @@ app.get('/results/:state/:candidate', (req, res) => {
 });
 
 app.get('/results/:state/:candidate/popular', (req, res) => {
-  console.log('popular vote state candidate endpoint');
-  res.json({message: 'popular vote state candidate endpoint'});
+  const stateCode = req.params.state.toUpperCase();
+  const candidateName = req.params.candidate.toUpperCase();
+
+  const query = `
+    SELECT pv.vote_count
+    FROM popular_votes pv
+    JOIN candidates c ON pv.candidate_id = c.candidate_id
+    WHERE pv.state_code = ?
+      AND UPPER(c.candidate_name) = ?
+  `;
+
+  db.get(query, [stateCode, candidateName], (err, row) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (!row) {
+      return res.status(404).json({ error: 'No results found for the specified candidate and state.' });
+    }
+
+    res.json({
+      state: stateCode,
+      candidate: candidateName,
+      vote_count: row.vote_count
+    });
+  });
 });
 
 app.get('/results/:state/:candidate/electoral', (req, res) => {

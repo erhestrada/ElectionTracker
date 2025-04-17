@@ -44,8 +44,6 @@ app.get('/results', (req, res) => {
 });
 
 
-// /results/popular, electoral
-
 app.get('/results/:state', (req, res) => {
   const stateCode = req.params.state.toUpperCase();
 
@@ -73,8 +71,6 @@ app.get('/results/:state', (req, res) => {
     });
   });
 });
-
-// /results/:state/popular, electoral
 
 // /results/:candidate/popular, electoral; popular/percent
 

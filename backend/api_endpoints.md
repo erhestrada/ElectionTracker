@@ -18,7 +18,8 @@ A summary of available endpoints for querying election results by state, candida
 
 | Method | Endpoint               | Description                              |
 |--------|------------------------|------------------------------------------|
-| GET    | `/results/:state`      | Get **popular votes by candidate** for a specific state |
+| GET    | `/results/:state`      | Get **popular votes** for a specific state |
+| GET    | `/results/:state/:candidate` | Get **popular votes by candidate** for a specific state |
 
 Example:
 ```http

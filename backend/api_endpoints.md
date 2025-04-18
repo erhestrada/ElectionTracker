@@ -32,6 +32,7 @@ A summary of available endpoints for querying election results by state, candida
 Example:
 ```http
 GET /results/tx
+```
 
 ---
 

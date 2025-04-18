@@ -11,6 +11,9 @@ A summary of available endpoints for querying election results by state, candida
 | GET    | `/results`        | Get **all national results**    |
 | GET    | `/results/popular`      | Get total popular vote results |
 | GET    | `/results/electoral`    | Get total electoral vote results |
+| GET    | `/results/general`        | Get **all national results**    |
+| GET    | `/results/general/popular`      | Get total popular vote results |
+| GET    | `/results/general/electoral`    | Get total electoral vote results |
 
 ---
 
@@ -29,3 +32,12 @@ A summary of available endpoints for querying election results by state, candida
 Example:
 ```http
 GET /results/tx
+
+---
+
+## 📊 County and Precinct Results
+
+| Method | Endpoint          | Description                     |
+|--------|-------------------|---------------------------------|
+| GET    | `/results/county`        | Get county results
+| GET    | `/results/district`    | Get district results

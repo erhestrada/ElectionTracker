@@ -42,3 +42,15 @@ GET /results/tx
 |--------|-------------------|---------------------------------|
 | GET    | `/results/county`        | Get county results
 | GET    | `/results/district`    | Get district results
+
+---
+
+## 📆 Year Filter
+
+All endpoints support an optional `year` query parameter to retrieve data for a specific election year.
+
+### 🔍 Example:
+```http
+GET /results/tx?year=2024
+GET /results/popular?year=2020
+GET /results/pa/biden/popular?year=2016

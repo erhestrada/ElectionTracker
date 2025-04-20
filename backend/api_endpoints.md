@@ -54,3 +54,15 @@ All endpoints support an optional `year` query parameter to retrieve data for a 
 GET /results/tx?year=2024
 GET /results/popular?year=2020
 GET /results/pa/biden/popular?year=2016
+```
+
+---
+
+## 📊 Demographics
+
+| Method | Endpoint          | Description                     |
+|--------|-------------------|---------------------------------|
+| GET    | `/demographics/approval`        | Get county results
+| GET    | `/demographics/gender`    | Get district results
+
+---

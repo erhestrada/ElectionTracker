@@ -64,5 +64,9 @@ GET /results/pa/biden/popular?year=2016
 |--------|-------------------|---------------------------------|
 | GET    | `/demographics/approval`        | Get county results
 | GET    | `/demographics/gender`    | Get district results
+| GET    | `/demographics/race`    | Get district results
+| GET    | `/demographics/age`    | Get district results
+| GET    | `/demographics/education`    | Get district results
+| GET    | `/demographics/party`    | Get district results
 
 ---

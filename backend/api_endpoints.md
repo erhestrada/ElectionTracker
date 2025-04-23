@@ -98,9 +98,11 @@ GET /results/pa/biden/popular?year=2016
 
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
-| GET    | `/statistics/voter-turnout-rate`    |   Indicates the level of civic engagement and can highlight areas with low statistics that may need targeted outreach. |
-| GET    | `/statistics/early-voting-rate`      | Helps in understanding voting patterns and can inform decisions on resource allocation for early voting sites.​ |
-| GET    | `/statistics/absentee-voting-rate`    | Helps in understanding voting patterns and can inform decisions on resource allocation for early voting sites.​ |
+| GET    | `/statistics/voter-turnout-rate`    |   The percentage of eligible voters who cast a ballot. |
+| GET    | `/statistics/early-voting-rate`      | The percentage of votes cast before Election Day, either in person or by mail.​ |
+| GET    | `/statistics/absentee-voting-rate`    | The percentage of votes cast before Election Day, either in person or by mail.​ |
+| GET    | `/statistics/vote-share`    | The percentage of total votes received by each candidate or party.​ |
+
 
 ```
 Voter Turnout

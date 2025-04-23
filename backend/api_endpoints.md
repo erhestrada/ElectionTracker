@@ -99,7 +99,15 @@ GET /results/pa/biden/popular?year=2016
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
 | GET    | `/participation/voter-turnout-rate`    |   Indicates the level of civic engagement and can highlight areas with low participation that may need targeted outreach. |
+| GET    | `/participation/early-voting-rate`      | Get total popular vote participation |
+| GET    | `/participation/absentee-voting-rate`    | Get total electoral vote participation |
 
 ```
+Voter Turnout
 (Total Votes Cast / Voting Eligibile Population) x 100
+
+Early and Absentee Voting
+(Early or Absentee Votes / Total Votes Cast) x 100
 ```
+
+

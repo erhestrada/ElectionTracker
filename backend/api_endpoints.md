@@ -79,17 +79,17 @@ GET /results/pa/biden/popular?year=2016
 
 ---
 
-## 📊 Voter Turnout, Early Voting, Absentee Ballots
+## 📊 Participation
 
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
-| GET    | `/results/voter-turnout`        | Get **all national results**    |
-| GET    | `/results/early-voting`      | Get total popular vote results |
-| GET    | `/results/absentee`    | Get total electoral vote results |
-| GET    | `/results/election-day-voting`        | Get **all national results**    |
-| GET    | `/results/provisional`      | Get total popular vote results |
-| GET    | `/results/registration`    | Get total electoral vote results |
-| GET    | `/results/rejected`    | Get results for specific race within state |
+| GET    | `/participation/voter-turnout`        | Get **all national participation**    |
+| GET    | `/participation/early-voting`      | Get total popular vote participation |
+| GET    | `/participation/absentee`    | Get total electoral vote participation |
+| GET    | `/participation/election-day-voting`        | Get **all national participation**    |
+| GET    | `/participation/provisional`      | Get total popular vote participation |
+| GET    | `/participation/registration`    | Get total electoral vote participation |
+| GET    | `/participation/rejected`    | Get participation for specific race within state |
 
 
 

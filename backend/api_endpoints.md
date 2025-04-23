@@ -102,6 +102,7 @@ GET /results/pa/biden/popular?year=2016
 | GET    | `/statistics/early-voting-rate`      | The percentage of votes cast before Election Day, either in person or by mail.​ |
 | GET    | `/statistics/absentee-voting-rate`    | The percentage of votes cast before Election Day, either in person or by mail.​ |
 | GET    | `/statistics/vote-share`    | The percentage of total votes received by each candidate or party.​ |
+| GET    | `/statistics/margin-of-victory`    | The difference in vote count between the winning candidate and the runner-up. (raw and percent)​ |
 
 
 ```
@@ -110,6 +111,10 @@ Voter Turnout
 
 Early and Absentee Voting
 (Early or Absentee Votes / Total Votes Cast) x 100
+
+Vote Share
+(Votes for Candidate or Party / Total Votes Cast) x 100
+
 ```
 
 

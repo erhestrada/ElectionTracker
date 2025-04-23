@@ -92,7 +92,14 @@ GET /results/pa/biden/popular?year=2016
 | GET    | `/participation/rejected`    | Get participation for specific race within state |
 
 
-
 ## 📊 Primary Results
 
 ## 📊 Calculations, Statistics
+
+| Method | Endpoint          | Description                     |
+|--------|-------------------|---------------------------------|
+| GET    | `/participation/voter-turnout-rate`    |   Indicates the level of civic engagement and can highlight areas with low participation that may need targeted outreach. |
+
+```
+(Total Votes Cast / Voting Eligibile Population) x 100
+```

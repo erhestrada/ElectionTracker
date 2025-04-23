@@ -78,3 +78,5 @@ GET /results/pa/biden/popular?year=2016
 | GET    | `/demographics/party`    | Get district results
 
 ---
+
+## 📊 Primary Results

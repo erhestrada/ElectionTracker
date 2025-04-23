@@ -14,6 +14,12 @@ A summary of available endpoints for querying election results by state, candida
 | GET    | `/results/general`        | Get **all national results**    |
 | GET    | `/results/general/popular`      | Get total popular vote results |
 | GET    | `/results/general/electoral`    | Get total electoral vote results |
+| GET    | `/results/general/{year}/state/{state_name}/{race_type}`    | Get results for specific race within state |
+
+Example:
+```
+GET /results/general/2024/state/CA/governor
+```
 
 ---
 

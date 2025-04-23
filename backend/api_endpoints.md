@@ -104,7 +104,10 @@ GET /results/pa/biden/popular?year=2016
 | GET    | `/statistics/vote-share`    | The percentage of total votes received by each candidate or party.​ |
 | GET    | `/statistics/margin-of-victory`    | The difference in vote count between the winning candidate and the runner-up. (raw and percent)​ |
 | GET    | `/statistics/ballot-rejection-rates`    | The percentage of ballots that are not counted due to errors or disqualification.​ |
-
+| GET    | `/statistics/election-day-voting-patterns`    | Analysis of voting times and locations to identify peak voting periods and potential bottlenecks.​ |
+| GET    | `/statistics/forensics`    | Detects anomalies in election results that may indicate fraud or irregularities.​ |
+| GET    | `/statistics/regression-analysis`    | Identifies factors that influence voter turnout and election outcomes.​ |
+| GET    | `/statistics/gerrymandering`    | Identifies potential partisan gerrymandering in district boundaries. |
 
 ```
 Voter Turnout
@@ -116,6 +119,17 @@ Early and Absentee Voting
 Vote Share
 (Votes for Candidate or Party / Total Votes Cast) x 100
 
+Forensics
+    Benford's Law: Analyzes the frequency distribution of leading digits in vote counts.
+    Digit Analysis: Examines the distribution of digits in vote counts for irregular patterns.
+    Machine Learning: Utilizes algorithms to identify outliers and anomalies in election data.
+
+Regression Analysis
+    Example: A study found that the prevalence of absentee voting in 2020 had a moderately strong and statistically significant impact on turnout.
+
+Gerrymandering
+    Declination: Measures the difference between the proportion of votes and the proportion of seats won.
+    Efficiency Gap: Quantifies wasted votes to assess the fairness of district boundaries.
 ```
 
 

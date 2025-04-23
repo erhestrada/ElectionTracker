@@ -36,12 +36,14 @@ GET /results/tx
 
 ---
 
-## 📊 County and Precinct Results
+## 📊 County, District, and Precinct
 
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
 | GET    | `/results/county`        | Get county results
 | GET    | `/results/district`    | Get district results
+| GET    | `/results/precinct`    | Get district results
+
 
 ---
 

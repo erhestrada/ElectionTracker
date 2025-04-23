@@ -103,6 +103,7 @@ GET /results/pa/biden/popular?year=2016
 | GET    | `/statistics/absentee-voting-rate`    | The percentage of votes cast before Election Day, either in person or by mail.​ |
 | GET    | `/statistics/vote-share`    | The percentage of total votes received by each candidate or party.​ |
 | GET    | `/statistics/margin-of-victory`    | The difference in vote count between the winning candidate and the runner-up. (raw and percent)​ |
+| GET    | `/statistics/ballot-rejection-rates`    | The percentage of ballots that are not counted due to errors or disqualification.​ |
 
 
 ```

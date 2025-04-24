@@ -35,7 +35,7 @@ db. run('CREATE TABLE IF NOT EXISTS state_electoral_votes (state_code CHAR(2), v
 
 //---------------
 
-app.get('/results', (req, res) => {
+app.get('/election/presidential/national/popular/by-state', (req, res) => {
   console.log('results endpoint hit');
   db.all('SELECT * FROM election_results', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });

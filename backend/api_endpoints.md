@@ -9,7 +9,7 @@ A summary of available endpoints for querying election results by state, candida
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
 | GET    | `/election/presidential/national/popular/by-state`        | Get popular vote results for each candidate in each state |
-| GET    | `/results/popular`      | Get total popular vote results |
+| GET    | `/election/presidential/national/popular/total`      | Get the total popular votes for each candidate nationally |
 | GET    | `/results/electoral`    | Get total electoral vote results |
 | GET    | `/results/general`        | Get **all national results**    |
 | GET    | `/results/general/popular`      | Get total popular vote results |

@@ -45,10 +45,13 @@ app.get('/election/presidential/national/popular/by-state', (req, res) => {
 
 app.get('/election/presidential/national/popular/total', (req, res) => {
   console.log('results endpoint hit');
-  db.all('SELECT * FROM election_results', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+  db.all(
+    "SELECT * FROM election_results WHERE state = 'Total:'",
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
 });
 
 

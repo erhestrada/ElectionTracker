@@ -54,6 +54,16 @@ app.get('/election/presidential/national/popular/total', (req, res) => {
   );
 });
 
+app.get('/election/presidential/national/popular/percent', (req, res) => {
+  console.log('results endpoint hit');
+  db.all(
+    "SELECT * FROM election_results WHERE state = 'Percentage:'",
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
+});
 
 app.get('/results/:state', (req, res) => {
   const stateCode = req.params.state.toUpperCase();

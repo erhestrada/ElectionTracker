@@ -67,7 +67,14 @@ app.get('/election/presidential/national/popular/percent', (req, res) => {
 
 app.get('/election/presidential/national/electoral/by-state', (req, res) => {
   console.log('results endpoint hit');
-  db.all('SELECT * FROM election_results', (err, rows) => {
+
+  const query = `
+  SELECT ev.state_code, c.candidate_name, ev.vote_count
+  FROM electoral_votes ev
+  JOIN candidates c ON ev.candidate_id = c.candidate_id
+  `
+
+  db.all(query, (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });

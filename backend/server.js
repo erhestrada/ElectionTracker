@@ -96,6 +96,7 @@ app.get('/election/presidential/national/electoral/total', (req, res) => {
   });
 });
 
+// date is wrong <===========================================================================
 app.get('/election/presidential/national/electoral/percent', (req, res) => {
   console.log('results endpoint hit');
 

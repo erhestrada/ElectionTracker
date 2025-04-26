@@ -36,9 +36,9 @@ GET /results/tx
 
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
-| GET    | `/results/county`        | Get county results
-| GET    | `/results/district`    | Get district results
-| GET    | `/results/precinct`    | Get district results
+| GET    | `/results/:state/county`        | Get county results
+| GET    | `/results/:state/district`    | Get district results
+| GET    | `/results/:state/precinct`    | Get district results
 
 
 ---

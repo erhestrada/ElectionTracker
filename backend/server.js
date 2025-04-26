@@ -113,11 +113,6 @@ app.get('/election/presidential/national/electoral/percent', (req, res) => {
   });
 });
 
-
-
-
-
-
 app.get('/results/:state', (req, res) => {
   const stateCode = req.params.state.toUpperCase();
 
@@ -143,6 +138,22 @@ app.get('/results/:state', (req, res) => {
       state: stateCode,
       results: rows
     });
+  });
+});
+
+app.get('/results/:state/electoral', (req, res) => {
+  const stateCode = req.params.state.toUpperCase();
+
+  const query = `
+  SELECT ev.state_code, c.candidate_name, ev.vote_count
+  FROM electoral_votes ev
+  JOIN candidates c ON ev.candidate_id = c.candidate_id
+  WHERE ev.state_code = ?
+  `
+
+  db.all(query, [stateCode], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
   });
 });
 

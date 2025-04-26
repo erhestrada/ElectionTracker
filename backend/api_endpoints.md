@@ -15,15 +15,6 @@ A summary of available endpoints for querying election results by state, candida
 | GET    | `/election/presidential/national/electoral/total`      | Get the total electoral votes for each candidate nationally |
 | GET    | `/election/presidential/national/electoral/percent`      | Get the percent of electoral votes for each candidate nationally |
 
-| GET    | `/results/general/{year}/state/{state_name}/{race_type}`    | Get results for specific race within state |
-
-Example:
-```
-GET /results/general/2024/state/CA/governor
-```
-
----
-
 ## 📍 State-Level Results
 
 | Method | Endpoint               | Description                              |

@@ -17,7 +17,7 @@ const parseElectionData = (filePath) => {
 };
 
 // Load election data from file (adjust the file path as necessary)
-const electionData = parseElectionData(path.join(__dirname, 'election_results.txt'));  // Adjust file path
+const electionData = parseElectionData(path.join(__dirname, 'NC_results_pct_20241105.txt'));  // Adjust file path
 
 // Create an SQLite database
 const db = new sqlite3.Database('./election_data.db');

@@ -2,11 +2,14 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-// Read data from CSV or TSV (you can adjust this based on the format of your data)
+// Constants for batching
+const BATCH_SIZE = 1000;  // Adjust to manage memory usage and speed
+
+// Read and parse tab-separated election data in chunks
 const parseElectionData = (filePath) => {
   const data = fs.readFileSync(filePath, 'utf-8');
-  const rows = data.split('\n').map(row => row.split('\t'));  // Assuming tab-separated values
-  const headers = rows.shift();  // Remove header row
+  const rows = data.split('\n').map(row => row.split('\t'));
+  const headers = rows.shift();  // Remove and save header row
   return rows.map(row => {
     const record = {};
     row.forEach((value, index) => {
@@ -16,17 +19,21 @@ const parseElectionData = (filePath) => {
   });
 };
 
-// Load election data from file (adjust the file path as necessary)
-const electionData = parseElectionData(path.join(__dirname, 'NC_results_pct_20241105.txt'));  // Adjust file path
+// Load election data
+const electionData = parseElectionData(path.join(__dirname, 'NC_results_pct_20241105.txt'));
 
-// Create an SQLite database
-const db = new sqlite3.Database('./data.db');
+// Connect to SQLite database
+const db = new sqlite3.Database('./election_data.db');
+
+// Faster performance for bulk inserts (optional for dev only)
+db.run('PRAGMA synchronous = OFF');
+db.run('PRAGMA journal_mode = WAL'); // Using Write-Ahead Logging for better concurrency
 
 db.serialize(() => {
-  // Drop the table if it exists (for fresh start)
+  // Drop old table if it exists
   db.run('DROP TABLE IF EXISTS nc_county_election_results_2024');
 
-  // Create table to store election results
+  // Create new table
   db.run(`
     CREATE TABLE IF NOT EXISTS nc_county_election_results_2024 (
       county TEXT,
@@ -47,7 +54,7 @@ db.serialize(() => {
     )
   `);
 
-  // Insert election results
+  // Prepare insert statement
   const insertStmt = db.prepare(`
     INSERT INTO nc_county_election_results_2024 (
       county, election_date, precinct, contest_group_id, contest_type, contest_name,
@@ -56,7 +63,12 @@ db.serialize(() => {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-  electionData.forEach(row => {
+  // ✅ Wrap inserts in a single transaction for speed
+  db.run('BEGIN TRANSACTION');
+
+  // Process data in chunks
+  let batchCounter = 0;
+  electionData.forEach((row, index) => {
     insertStmt.run(
       row['County'],
       row['Election Date'],
@@ -74,11 +86,20 @@ db.serialize(() => {
       row['Total Votes'],
       row['Real Precinct']
     );
+
+    // Commit every BATCH_SIZE rows
+    if (++batchCounter === BATCH_SIZE || index === electionData.length - 1) {
+      db.run('COMMIT');  // Commit transaction
+      batchCounter = 0;  // Reset counter
+      if (index < electionData.length - 1) {
+        db.run('BEGIN TRANSACTION');  // Start new transaction for the next batch
+      }
+    }
   });
 
+  // Finalize and close after all data is inserted
   insertStmt.finalize();
 
-  // Finalize database and close connection
   db.close(() => {
     console.log('✅ Data imported into the nc_county_election_results_2024 table.');
   });

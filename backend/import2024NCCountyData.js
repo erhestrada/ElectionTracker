@@ -20,7 +20,7 @@ const parseElectionData = (filePath) => {
 const electionData = parseElectionData(path.join(__dirname, 'NC_results_pct_20241105.txt'));  // Adjust file path
 
 // Create an SQLite database
-const db = new sqlite3.Database('./election_data.db');
+const db = new sqlite3.Database('./data.db');
 
 db.serialize(() => {
   // Drop the table if it exists (for fresh start)

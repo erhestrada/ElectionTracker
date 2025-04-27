@@ -24,11 +24,11 @@ const db = new sqlite3.Database('./election_data.db');
 
 db.serialize(() => {
   // Drop the table if it exists (for fresh start)
-  db.run('DROP TABLE IF EXISTS election_results');
+  db.run('DROP TABLE IF EXISTS nc_county_election_results_2024');
 
   // Create table to store election results
   db.run(`
-    CREATE TABLE IF NOT EXISTS election_results (
+    CREATE TABLE IF NOT EXISTS nc_county_election_results_2024 (
       county TEXT,
       election_date DATE,
       precinct TEXT,
@@ -49,7 +49,7 @@ db.serialize(() => {
 
   // Insert election results
   const insertStmt = db.prepare(`
-    INSERT INTO election_results (
+    INSERT INTO nc_county_election_results_2024 (
       county, election_date, precinct, contest_group_id, contest_type, contest_name,
       choice, choice_party, vote_for, election_day, early_voting, absentee_by_mail,
       provisional, total_votes, real_precinct
@@ -80,6 +80,6 @@ db.serialize(() => {
 
   // Finalize database and close connection
   db.close(() => {
-    console.log('✅ Data imported into the election_results table.');
+    console.log('✅ Data imported into the nc_county_election_results_2024 table.');
   });
 });

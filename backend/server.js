@@ -250,6 +250,11 @@ app.get('/results/:state/:candidate/electoral', (req, res) => {
   });
 });
 
+app.get('/results/county', (req, res) => {
+  console.log('county endpoint hit');
+  res.send('county endpoint hit');
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

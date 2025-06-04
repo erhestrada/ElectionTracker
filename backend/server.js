@@ -96,20 +96,26 @@ app.get('/election/presidential/national/electoral/total', (req, res) => {
   });
 });
 
-// data is wrong <===========================================================================
 app.get('/election/presidential/national/electoral/percent', (req, res) => {
-  console.log('results endpoint hit');
-
   const query = `
-  SELECT ev.state_code, c.candidate_name, ev.vote_count
-  FROM electoral_votes ev
-  JOIN candidates c ON ev.candidate_id = c.candidate_id
-  WHERE state_code = 'Percentage:'
-  `
+    SELECT c.candidate_name, ev.vote_count
+    FROM electoral_votes ev
+    JOIN candidates c ON ev.candidate_id = c.candidate_id
+    WHERE state_code = 'Total:'
+  `;
 
   db.all(query, (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
+
+    const totalVotes = rows.reduce((sum, row) => sum + row.vote_count, 0);
+
+    const withPercentages = rows.map(row => ({
+      candidate: row.candidate_name,
+      votes: row.vote_count,
+      percent: ((row.vote_count / totalVotes) * 100).toFixed(2) + '%'
+    }));
+
+    res.json(withPercentages);
   });
 });
 

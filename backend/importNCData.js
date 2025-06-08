@@ -1,6 +1,9 @@
 // Main control flow: parse, prepare, insert
-function importNorthCarolinaElectionResults() {
+const DATABASE_FILE_PATH = './data.db';
+const DATA_FILE_PATH = './NC_results_pct_20241105.txt'
+
+function importNorthCarolinaElectionResults(databaseFilePath, dataFilePath) {
 
 }
 
-importNorthCarolinaElectionResults();
+importNorthCarolinaElectionResults(DATABASE_FILE_PATH, DATA_FILE_PATH);

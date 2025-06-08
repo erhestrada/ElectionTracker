@@ -10,7 +10,6 @@ function parseElectionData(electionDataFilePath) {
     const rows = rawElectionData.split('\n').filter(Boolean).map(row => row.split('\t'));
     // remove the first row of rows, the column names, and store in columnNames
     const columnNames = rows.shift();
-    console.log(rows[0]);
 
     const valuePerColumnRows = rows.map(row => {
         const valuePerColumn = {};

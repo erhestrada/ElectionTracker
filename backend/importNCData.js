@@ -8,9 +8,10 @@ function parseElectionData(electionDataFilePath) {
 
     // split data by line, filter out empty rows, split string rows into arrays
     const rows = rawElectionData.split('\n').filter(Boolean).map(row => row.split('\t'));
-    console.log(rows[1]);
+    // remove the first row of rows, the column names, and store in columnNames
+    const columnNames = rows.shift();
+    console.log(rows[0]);
 
-      //const rows = raw.split('\n').filter(Boolean).map(row => row.split('\t'));
 
 }
 

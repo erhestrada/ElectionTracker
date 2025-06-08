@@ -12,7 +12,15 @@ function parseElectionData(electionDataFilePath) {
     const columnNames = rows.shift();
     console.log(rows[0]);
 
+    const columnLabeledRows = rows.map(row => {
+        const columnLabeledRow = {};
+        row.forEach((value, index) => {
+            columnLabeledRow[columnNames[index].trim()] = value.trim();
+        });
+        return columnLabeledRow;
+    });
 
+    return columnLabeledRows;
 }
 
 // Main control flow: parse, prepare, insert

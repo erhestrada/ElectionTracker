@@ -1,4 +1,5 @@
 const fs = require('fs');
+const sqlite3 = require('sqlite3');
 
 const DATABASE_FILE_PATH = './data.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
@@ -23,7 +24,10 @@ function parseElectionData(electionDataFilePath) {
 }
 
 function initializeDatabase(databaseFilePath) {
-    
+    const db = new sqlite3.Database(databaseFilePath);
+    //db.run('PRAGMA synchronous = OFF');
+    //db.run('PRAGMA journal_mode = WAL');
+    return db
 }
 
 // Main control flow: parse, prepare, insert

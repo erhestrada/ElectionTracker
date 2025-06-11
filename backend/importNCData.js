@@ -22,9 +22,18 @@ function parseElectionData(electionDataFilePath) {
     return valuePerColumnRows;
 }
 
+function initializeDatabase(databaseFilePath) {
+    
+}
+
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
+    // empty final column
     const electionData = parseElectionData(electionDataFilePath)
+    // console.log(electionData[0]);
+
+      const db = initializeDatabase(databaseFilePath);
+
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

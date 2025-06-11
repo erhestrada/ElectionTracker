@@ -1,7 +1,7 @@
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 
-const DATABASE_FILE_PATH = './data.db';
+const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 
 function parseElectionData(electionDataFilePath) {

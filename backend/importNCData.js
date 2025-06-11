@@ -30,13 +30,18 @@ function initializeDatabase(databaseFilePath) {
     return db
 }
 
+function insertElectionDataIntoDb(electionData, db) {
+
+}
+
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
     // empty final column
     const electionData = parseElectionData(electionDataFilePath)
     // console.log(electionData[0]);
+    const db = initializeDatabase(databaseFilePath);
 
-      const db = initializeDatabase(databaseFilePath);
+    insertElectionDataIntoDb(electionData, db);
 
 }
 

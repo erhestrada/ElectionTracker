@@ -4,6 +4,18 @@ const sqlite3 = require('sqlite3');
 const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 
+// Main control flow: parse, prepare, insert
+function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
+    // empty final column
+    const electionData = parseElectionData(electionDataFilePath)
+    // console.log(electionData[0]);
+    const db = initializeDatabase(databaseFilePath);
+
+    insertElectionDataIntoDb(electionData, db);
+
+}
+
+
 function parseElectionData(electionDataFilePath) {
     const rawElectionData = fs.readFileSync(electionDataFilePath, 'utf8');
 
@@ -31,18 +43,14 @@ function initializeDatabase(databaseFilePath) {
 }
 
 function insertElectionDataIntoDb(electionData, db) {
+    db.serialize(() => {
+        setupTables();
+    });
+}
+
+function setupTables() {
 
 }
 
-// Main control flow: parse, prepare, insert
-function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
-    // empty final column
-    const electionData = parseElectionData(electionDataFilePath)
-    // console.log(electionData[0]);
-    const db = initializeDatabase(databaseFilePath);
-
-    insertElectionDataIntoDb(electionData, db);
-
-}
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

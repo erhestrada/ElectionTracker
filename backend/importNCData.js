@@ -15,7 +15,6 @@ function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePa
 
 }
 
-
 function parseElectionData(electionDataFilePath) {
     const rawElectionData = fs.readFileSync(electionDataFilePath, 'utf8');
 
@@ -44,13 +43,12 @@ function initializeDatabase(databaseFilePath) {
 
 function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
-        setupTables();
+        initializeTables(db);
     });
 }
 
-function setupTables() {
+function initializeTables(db) {
 
 }
-
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

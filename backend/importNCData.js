@@ -3,6 +3,7 @@ const sqlite3 = require('sqlite3');
 
 const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
+const TABLE_NAMES = [];
 
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {

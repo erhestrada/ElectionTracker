@@ -35,12 +35,12 @@ const tableSchemas = {
   },
   voting_methods: {
     vote_id: { type: 'INTEGER', primaryKey: true },
-    election_id: {type: 'INTEGER', foreignKey: ''},
-    contest_id: {type: 'INTEGER', foreignKey: ''},
-    county_id: {type: 'INTEGER', foreignKey: ''},
-    precinct_id: {type: 'INTEGER', foreignKey: ''},
-    candidate_id: {type: 'INTEGER', foreignKey: ''},
-    method_id: {type: 'INTEGER', foreignKey: ''},
+    election_id: { type: 'INTEGER', foreignKey: 'elections.election_id' },
+    contest_id: { type: 'INTEGER', foreignKey: 'contests.contest_id' },
+    county_id: { type: 'INTEGER', foreignKey: 'counties.county_id'},
+    precinct_id: { type: 'INTEGER', foreignKey: 'precincts.precinct_id'},
+    candidate_id: { type: 'INTEGER', foreignKey: 'candidates.candidate_id'},
+    method: { type: 'TEXT' },
     vote_count: { type: 'INTEGER' }
   }
 };

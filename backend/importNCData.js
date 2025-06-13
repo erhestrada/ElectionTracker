@@ -11,7 +11,13 @@ const tableSchemas = {
     election_date: { type: 'DATE' },
     description: { type: 'TEXT' }
   },
-  contests: {},
+  contests: {
+    contest_id: {},
+    contest_group_id: {},
+    contest_type: {},
+    contest_name: {},
+    votes_allowed: {}
+  },
   precincts: {},
   candidates: {},
   'voting_methods': {}

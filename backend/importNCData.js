@@ -40,7 +40,7 @@ const tableSchemas = {
     county_id: {},
     precinct_id: {},
     candidate_idmethod_id: {},
-    vote_count: {}
+    vote_count: { type: 'INTEGER' }
   }
 };
 // Main control flow: parse, prepare, insert

@@ -33,7 +33,15 @@ const tableSchemas = {
     name: {},
     party: {}
   },
-  voting_methods: {}
+  voting_methods: {
+    vote_id: {},
+    election_id: {},
+    contest_id: {},
+    county_id: {},
+    precinct_id: {},
+    candidate_idmethod_id: {},
+    vote_count: {}
+  }
 };
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {

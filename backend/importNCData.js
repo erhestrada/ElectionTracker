@@ -13,10 +13,10 @@ const tableSchemas = {
   },
   contests: {
     contest_id: { type: 'INTEGER', primaryKey: true },
-    contest_group_id: {},
+    contest_group_id: { type: 'INTEGER' },
     contest_type: { type: 'TEXT' },
     contest_name: { type: 'TEXT' },
-    votes_allowed: {}
+    votes_allowed: { type: 'INTEGER' }
   },
   counties: {
     county_id: { type: 'INTEGER', primaryKey: true },
@@ -24,8 +24,8 @@ const tableSchemas = {
   },
   precincts: {
     precinct_id: { type: 'INTEGER', primaryKey: true },
-    precinct_code: {},
-    county_id: {},
+    precinct_code: { type: 'INTEGER' },
+    county_id: { type: 'INTEGER' },
     real_precinct: { type: 'TEXT' }
   },
   candidates: {

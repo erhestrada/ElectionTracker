@@ -18,9 +18,22 @@ const tableSchemas = {
     contest_name: {},
     votes_allowed: {}
   },
-  precincts: {},
-  candidates: {},
-  'voting_methods': {}
+  counties: {
+    county_id: {},
+    county_name: {}
+  },
+  precincts: {
+    precinct_id: {},
+    precinct_code: {},
+    county_id: {},
+    real_precinct: {}
+  },
+  candidates: {
+    candidate_id: {},
+    name: {},
+    party: {}
+  },
+  voting_methods: {}
 };
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {

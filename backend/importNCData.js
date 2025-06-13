@@ -5,8 +5,17 @@ const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 
 const tableNames = ['elections', 'contests', 'counties', 'precincts', 'candidates', 'voting_methods'];
-const tableSchemas = [];
-
+const tableSchemas = {
+  elections: {
+    election_id: { type: 'INTEGER', primaryKey: true },
+    election_date: { type: 'DATE' },
+    description: { type: 'TEXT' }
+  },
+  contests: {},
+  precincts: {},
+  candidates: {},
+  'voting_methods': {}
+};
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
     // empty final column

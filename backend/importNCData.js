@@ -92,13 +92,17 @@ function initializeTables(tableSchemas, db) {
     // Drop table if it already exists
     db.run(`DROP TABLE IF EXISTS ${tableName}`);
 
-    const columnDefinitions = {};
+    const columnDefinitions = makeColumnDefinitions(columnSchemas);
 
     const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions})`;
 
     db.run(createTableStatement);
   }
   console.log(tableSchemas);
+}
+
+function makeColumnDefinitions(columnSchemas) {
+
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

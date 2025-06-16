@@ -88,6 +88,11 @@ function insertElectionDataIntoDb(electionData, db) {
 }
 
 function initializeTables(tableSchemas, db) {
+  for(const [tableName, columnDefinitions] of Object.entries(tableSchemas)) {
+    // Drop table if it already exists
+    db.run(`DROP TABLE IF EXISTS ${tableName}`)
+
+  }
   console.log(tableSchemas);
 }
 

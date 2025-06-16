@@ -92,7 +92,11 @@ function initializeTables(tableSchemas, db) {
     // Drop table if it already exists
     db.run(`DROP TABLE IF EXISTS ${tableName}`);
 
+    const columnDefinitions = {};
+
     const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions})`;
+
+    db.run(createTableStatement);
   }
   console.log(tableSchemas);
 }

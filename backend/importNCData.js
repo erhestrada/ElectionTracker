@@ -92,17 +92,32 @@ function initializeTables(tableSchemas, db) {
     // Drop table if it already exists
     db.run(`DROP TABLE IF EXISTS ${tableName}`);
 
-    const columnDefinitions = makeColumnDefinitions(columnSchemas);
+    const allColumnDefinitions = makeColumnDefinitions(columnSchemas);
 
-    const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions})`;
+    const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${allColumnDefinitions})`;
 
-    db.run(createTableStatement);
+    //db.run(createTableStatement);
   }
   console.log(tableSchemas);
 }
 
+// refactor
+// handle foreign key correctly
+// handle trailing comma
 function makeColumnDefinitions(columnSchemas) {
+  let allColumnDefinitions = '';
 
+  for(const [columnName, columnProperties] of Object.entries(columnSchemas)) {
+    let columnDefinitionsString = `${columnName} ${columnProperties.type}`;
+    if (columnProperties.primaryKey) columnDefinitionsString += ' PRIMARY KEY';
+    if (columnProperties.foreignKey) columnDefinitionsString += ' FOREIGN KEY';
+    columnDefinitionsString += ',\n';
+
+    allColumnDefinitions += columnDefinitionsString;
+  }
+
+  console.log(allColumnDefinitions);
+  return allColumnDefinitions;
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

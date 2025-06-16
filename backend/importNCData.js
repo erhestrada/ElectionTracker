@@ -44,6 +44,7 @@ const tableSchemas = {
     vote_count: { type: 'INTEGER' }
   }
 };
+
 // Main control flow: parse, prepare, insert
 function importNorthCarolinaElectionResults(databaseFilePath, electionDataFilePath) {
     // empty final column
@@ -83,12 +84,12 @@ function initializeDatabase(databaseFilePath) {
 
 function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
-        initializeTables(db);
+        initializeTables(tableSchemas, db);
     });
 }
 
-function initializeTables(db) {
-
+function initializeTables(tableSchemas, db) {
+  console.log(tableSchemas);
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

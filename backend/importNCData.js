@@ -76,6 +76,7 @@ function parseElectionData(electionDataFilePath) {
 
 function initializeDatabase(databaseFilePath) {
     const db = new sqlite3.Database(databaseFilePath);
+    db.run('PRAGMA foreign_keys = ON');
     //db.run('PRAGMA synchronous = OFF');
     //db.run('PRAGMA journal_mode = WAL');
     return db
@@ -95,8 +96,8 @@ function initializeTables(tableSchemas, db) {
     const columnDefinitionsString = makeColumnDefinitions(columnSchemas);
 
     const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitionsString})`;
-    console.log('-----------------')
-    //db.run(createTableStatement);
+    //console.log('-----------------')
+    db.run(createTableStatement);
   }
   //console.log(tableSchemas);
 }
@@ -124,7 +125,7 @@ function makeColumnDefinitions(columnSchemas) {
   const allColumnAndForeignKeyDefinitions = [...allColumnDefinitions, ...foreignKeyDefinitions];
   const columnDefinitionsString = allColumnAndForeignKeyDefinitions.join(',\n');
 
-  console.log(columnDefinitionsString);
+  //console.log(columnDefinitionsString);
   return columnDefinitionsString;
 }
 

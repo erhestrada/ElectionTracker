@@ -108,15 +108,15 @@ function makeColumnDefinitions(columnSchemas) {
     let columnDefinitionString = `${columnName} ${columnProperties.type}`;
     if (columnProperties.primaryKey) {
       columnDefinitionString += ' PRIMARY KEY';
-      allColumnDefinitions.push(columnDefinitionString);
     }
+    allColumnDefinitions.push(columnDefinitionString);
 
     // FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column)
     // FOREIGN KEY(election_id) REFERENCES elections(election_id),
     if (columnProperties.foreignKey) {
       // e.g. candidates.candidate_id => candidates, candidate_id
       const [referenceTable, referenceColumn] = columnProperties.foreignKey.split('.');
-      foreignKeys.push(`FOREIGN KEY(${columnName}) REFERENCES ${referenceTable}(${referenceColumn})`);
+      allColumnDefinitions.push(`FOREIGN KEY(${columnName}) REFERENCES ${referenceTable}(${referenceColumn})`);
     }
   }
 

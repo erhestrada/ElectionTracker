@@ -101,16 +101,23 @@ function initializeTables(tableSchemas, db) {
   //console.log(tableSchemas);
 }
 
-// refactor
-// handle foreign key correctly
 function makeColumnDefinitions(columnSchemas) {
   let allColumnDefinitions = [];
 
   for(const [columnName, columnProperties] of Object.entries(columnSchemas)) {
     let columnDefinitionString = `${columnName} ${columnProperties.type}`;
-    if (columnProperties.primaryKey) columnDefinitionString += ' PRIMARY KEY';
-    if (columnProperties.foreignKey) columnDefinitionString += ' FOREIGN KEY';
-    allColumnDefinitions.push(columnDefinitionString);
+    if (columnProperties.primaryKey) {
+      columnDefinitionString += ' PRIMARY KEY';
+      allColumnDefinitions.push(columnDefinitionString);
+    }
+
+    // FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column)
+    // FOREIGN KEY(election_id) REFERENCES elections(election_id),
+    if (columnProperties.foreignKey) {
+      // e.g. candidates.candidate_id => candidates, candidate_id
+      const [referenceTable, referenceColumn] = columnProperties.foreignKey.split('.');
+      foreignKeys.push(`FOREIGN KEY(${columnName}) REFERENCES ${referenceTable}(${referenceColumn})`);
+    }
   }
 
   const columnDefinitionsString = allColumnDefinitions.join(',\n');

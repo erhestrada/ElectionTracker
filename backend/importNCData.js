@@ -92,32 +92,31 @@ function initializeTables(tableSchemas, db) {
     // Drop table if it already exists
     db.run(`DROP TABLE IF EXISTS ${tableName}`);
 
-    const allColumnDefinitions = makeColumnDefinitions(columnSchemas);
+    const columnDefinitionsString = makeColumnDefinitions(columnSchemas);
 
-    const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${allColumnDefinitions})`;
-
+    const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitionsString})`;
+    console.log('-----------------')
     //db.run(createTableStatement);
   }
-  console.log(tableSchemas);
+  //console.log(tableSchemas);
 }
 
 // refactor
 // handle foreign key correctly
-// handle trailing comma
 function makeColumnDefinitions(columnSchemas) {
-  let allColumnDefinitions = '';
+  let allColumnDefinitions = [];
 
   for(const [columnName, columnProperties] of Object.entries(columnSchemas)) {
-    let columnDefinitionsString = `${columnName} ${columnProperties.type}`;
-    if (columnProperties.primaryKey) columnDefinitionsString += ' PRIMARY KEY';
-    if (columnProperties.foreignKey) columnDefinitionsString += ' FOREIGN KEY';
-    columnDefinitionsString += ',\n';
-
-    allColumnDefinitions += columnDefinitionsString;
+    let columnDefinitionString = `${columnName} ${columnProperties.type}`;
+    if (columnProperties.primaryKey) columnDefinitionString += ' PRIMARY KEY';
+    if (columnProperties.foreignKey) columnDefinitionString += ' FOREIGN KEY';
+    allColumnDefinitions.push(columnDefinitionString);
   }
 
-  console.log(allColumnDefinitions);
-  return allColumnDefinitions;
+  const columnDefinitionsString = allColumnDefinitions.join(',\n');
+
+  console.log(columnDefinitionsString);
+  return columnDefinitionsString;
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

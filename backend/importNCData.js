@@ -178,7 +178,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       const countiesInsertStatement = insertStatementPerTable.counties;
       const insertCountyResult = countiesInsertStatement.run(county);
       const countyId = insertCountyResult.lastInsertRowid;
-      console.log(countyId);
+      countyNameToId.set(county, countyId);
       uniqueCounties.add(county);
     }
 
@@ -213,6 +213,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
 
   }
   db.exec('COMMIT');
+  //console.log(countyNameToId);
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

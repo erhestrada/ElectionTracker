@@ -85,6 +85,20 @@ function initializeDatabase(databaseFilePath) {
 function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
         initializeTables(tableSchemas, db);
+        const insertStatementPerTable = prepareInsertStatements(db);
+
+
+        //setupElectionResultsTable(db);
+        //const insertStmt = prepareInsertStatement(db);
+        //insertElectionData(db, insertStmt, data);
+
+        /*
+        insertStmt.finalize();
+        db.close(() => {
+          console.log(`✅ Data imported into the ${TABLE_NAME} table.`);
+        });
+        */
+
     });
 }
 
@@ -127,6 +141,17 @@ function makeColumnDefinitions(columnSchemas) {
 
   //console.log(columnDefinitionsString);
   return columnDefinitionsString;
+}
+
+function prepareInsertStatements(db) {
+  const insertStatementPerTable = {elections: ``,
+    contests: db.prepare(``),
+    counties: db.prepare(``),
+    precincts: db.prepare(``),
+    candidates: db.prepare(``),
+    voting_methods: db.prepare(``)
+  };
+  return insertStatementPerTable
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

@@ -186,6 +186,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       const electionInsertStatement = insertStatementPerTable.elections;
       const insertElectionResult = electionInsertStatement.run(electionDate);
       const electionId = insertElectionResult.lastInsertRowid;
+      electionDateToId.set(electionDate, electionId);
       uniqueElectionDates.add(electionDate);
     }
 
@@ -195,6 +196,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       const precinctsInsertStatement = insertStatementPerTable.precincts;
       const insertPrecinctResult = precinctsInsertStatement.run(precinctCode, county, realPrecinct); // refactor this and schema; county should be a foreign key using countyId
       const precinctId = insertPrecinctResult.lastInsertRowid;
+      precinctCodeToId.set(precinctCode, precinctId);
       uniquePrecincts.add(precinctKey);
     }
 
@@ -203,6 +205,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       const contestsInsertStatement = insertStatementPerTable.contests;
       const insertContestResult = contestsInsertStatement.run(contestGroupId, contestType, contestName, votesAllowed);
       const contestId = insertContestResult.lastInsertRowid;
+      contestNameToId.set(contestName, contestId);
       uniqueContests.add(contestKey);
     }
 
@@ -211,9 +214,9 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       const candidatesInsertStatement = insertStatementPerTable.candidates;
       const insertCandidateResult = candidatesInsertStatement.run(candidate, party);
       const candidateId = insertCandidateResult.lastInsertRowid;
+      candidateNameToId.set(candidate, candidateId);
       uniqueCandidates.add(candidateKey);
     }
-
 
   }
   db.exec('COMMIT');

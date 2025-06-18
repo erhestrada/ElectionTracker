@@ -148,7 +148,13 @@ function prepareInsertStatements(db) {
 }
 
 function insertElectionDataIntoTables(db, insertStatementPerTable, electionData) {
-
+  db.run('BEGIN TRANSACTION');
+  for(const valuePerColumn of electionData) {
+    const county = valuePerColumn.County;
+    const countiesInsertStatement = insertStatementPerTable.counties;
+    countiesInsertStatement.run(county);
+  }
+  db.run('COMMIT');
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

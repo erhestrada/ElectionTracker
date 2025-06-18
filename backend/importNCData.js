@@ -7,8 +7,7 @@ const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 const tableSchemas = {
   elections: {
     election_id: { type: 'INTEGER', primaryKey: true },
-    election_date: { type: 'DATE' },
-    description: { type: 'TEXT' }
+    election_date: { type: 'DATE' }
   },
   contests: {
     contest_id: { type: 'INTEGER', primaryKey: true },
@@ -136,7 +135,7 @@ function makeColumnDefinitions(columnSchemas) {
 }
 
 function prepareInsertStatements(db) {
-  const insertStatementPerTable = {elections: db.prepare(`INSERT INTO elections (election_date, description) VALUES (?, ?)`),
+  const insertStatementPerTable = {elections: db.prepare(`INSERT INTO elections (election_date) VALUES (?)`),
     contests: db.prepare(`INSERT INTO contests (contest_group_id, contest_type, contest_name, votes_allowed) VALUES (?, ?, ?, ?)`),
     counties: db.prepare(`INSERT INTO counties (county_name) VALUES (?)`),
     precincts: db.prepare(`INSERT INTO precincts (precinct_code, county_id, real_precinct) VALUES (?, ?, ?)`),

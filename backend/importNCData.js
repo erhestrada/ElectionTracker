@@ -85,7 +85,7 @@ function initializeDatabase(databaseFilePath) {
 function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
         initializeTables(tableSchemas, db);
-        const insertStatementPerTable = prepareInsertStatements(db);
+        const insertStatementPerTable = prepareInsertStatementsFromTableSchemas(db, tableSchemas);
 
 
         //setupElectionResultsTable(db);
@@ -144,13 +144,14 @@ function makeColumnDefinitions(columnSchemas) {
 }
 
 function prepareInsertStatements(db) {
-  const insertStatementPerTable = {elections: ``,
-    contests: db.prepare(``),
-    counties: db.prepare(``),
-    precincts: db.prepare(``),
-    candidates: db.prepare(``),
-    voting_methods: db.prepare(``)
+  const insertStatementPerTable = {elections: db.prepare(`INSERT INTO elections (election_date, description) VALUES (?, ?)`),
+    contests: db.prepare(`INSERT INTO contests (contest_group_id, contest_type, contest_name, votes_allowed) VALUES (?, ?, ?, ?)`),
+    counties: db.prepare(db.prepare(`INSERT INTO counties (county_name) VALUES (?)`)),
+    precincts: db.prepare(db.prepare(`INSERT INTO precincts (precinct_code, county_id, real_precinct) VALUES (?, ?, ?)`)),
+    candidates: db.prepare(db.prepare(`INSERT INTO candidates (name, party) VALUES (?, ?)`)),
+    voting_methods: db.prepare(db.prepare(`INSERT INTO voting_methods (election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count) VALUES (?, ?, ?, ?, ?, ?, ?)`))
   };
+
   return insertStatementPerTable
 }
 

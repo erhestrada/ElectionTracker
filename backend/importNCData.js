@@ -176,7 +176,9 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
 
     if (!uniqueCounties.has(county)) {
       const countiesInsertStatement = insertStatementPerTable.counties;
-      countiesInsertStatement.run(county);
+      const insertCountyResult = countiesInsertStatement.run(county);
+      const countyId = insertCountyResult.lastInsertRowid;
+      console.log(countyId);
       uniqueCounties.add(county);
     }
 

@@ -1,3 +1,5 @@
+// TODO: add unique constraints to tables
+
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 
@@ -147,10 +149,10 @@ function prepareInsertStatements(db) {
 }
 
 function insertElectionDataIntoTables(db, insertStatementPerTable, electionData) {
-  console.log(electionData[0]);
   let uniqueCounties = new Set();
   let uniqueElectionDates = new Set();
   let uniquePrecincts = new Set();
+  let uniqueContests = new Set();
 
   db.run('BEGIN TRANSACTION');
 
@@ -159,6 +161,11 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const electionDate = valuePerColumn['Election Date'];
     const realPrecinct = valuePerColumn['Real Precinct'];
     const precinctCode = valuePerColumn.Precinct;
+
+    const contestGroupId = valuePerColumn['Contest Group ID'];
+    const contestType = valuePerColumn['Contest Type'];
+    const contestName = valuePerColumn['Contest Name'];
+    const votesAllowed = valuePerColumn['Vote For'];
 
     if (!uniqueCounties.has(county)) {
       const countiesInsertStatement = insertStatementPerTable.counties;
@@ -173,11 +180,18 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     }
 
     const precinctKey = `${precinctCode} | ${county} | ${realPrecinct}`;
-    
+
     if (!uniquePrecincts.has(precinctKey)) {
       const precinctsInsertStatement = insertStatementPerTable.precincts;
       precinctsInsertStatement.run(precinctCode, county, realPrecinct); // refactor this and schema; county should be a foreign key using countyId
       uniquePrecincts.add(precinctKey);
+    }
+
+    const contestKey = `${contestGroupId} | ${contestType} | ${contestName} | ${votesAllowed}`;
+    if (! uniqueContests.has(contestKey)) {
+      const contestsInsertStatement = insertStatementPerTable.contests;
+      contestsInsertStatement.run(contestGroupId, contestType, contestName, votesAllowed);
+      uniqueContests.add(contestKey);
     }
 
 

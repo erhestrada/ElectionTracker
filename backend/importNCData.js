@@ -148,11 +148,19 @@ function prepareInsertStatements(db) {
 }
 
 function insertElectionDataIntoTables(db, insertStatementPerTable, electionData) {
+  let uniqueCounties = new Set();
+
   db.run('BEGIN TRANSACTION');
+
   for(const valuePerColumn of electionData) {
     const county = valuePerColumn.County;
-    const countiesInsertStatement = insertStatementPerTable.counties;
-    countiesInsertStatement.run(county);
+
+    if (!uniqueCounties.has(county)) {
+      const countiesInsertStatement = insertStatementPerTable.counties;
+      countiesInsertStatement.run(county);
+      uniqueCounties.add(county);
+    }
+
   }
   db.run('COMMIT');
 }

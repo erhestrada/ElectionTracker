@@ -150,12 +150,15 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
   console.log(electionData[0]);
   let uniqueCounties = new Set();
   let uniqueElectionDates = new Set();
+  let uniquePrecincts = new Set();
 
   db.run('BEGIN TRANSACTION');
 
   for(const valuePerColumn of electionData) {
     const county = valuePerColumn.County;
     const electionDate = valuePerColumn['Election Date'];
+    const realPrecinct = valuePerColumn['Real Precinct'];
+    const precinctCode = valuePerColumn.Precinct;
 
     if (!uniqueCounties.has(county)) {
       const countiesInsertStatement = insertStatementPerTable.counties;
@@ -168,6 +171,15 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       electionInsertStatement.run(electionDate);
       uniqueElectionDates.add(electionDate);
     }
+
+    const precinctKey = `${precinctCode} | ${county} | ${realPrecinct}`;
+    
+    if (!uniquePrecincts.has(precinctKey)) {
+      const precinctsInsertStatement = insertStatementPerTable.precincts;
+      precinctsInsertStatement.run(precinctCode, county, realPrecinct); // refactor this and schema; county should be a foreign key using countyId
+      uniquePrecincts.add(precinctKey);
+    }
+
 
   }
   db.run('COMMIT');

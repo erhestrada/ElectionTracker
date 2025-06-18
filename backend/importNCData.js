@@ -1,7 +1,7 @@
 // TODO: add unique constraints to tables
 
 const fs = require('fs');
-const sqlite3 = require('sqlite3');
+const Database = require('better-sqlite3');
 
 const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
@@ -76,35 +76,32 @@ function parseElectionData(electionDataFilePath) {
 }
 
 function initializeDatabase(databaseFilePath) {
-    const db = new sqlite3.Database(databaseFilePath);
-    db.run('PRAGMA foreign_keys = ON');
-    //db.run('PRAGMA synchronous = OFF');
-    //db.run('PRAGMA journal_mode = WAL');
+    const db = new Database(databaseFilePath);
+    db.exec('PRAGMA foreign_keys = ON');
+    //db.exec('PRAGMA synchronous = OFF');
+    //db.exec('PRAGMA journal_mode = WAL');
     return db
 }
 
 function insertElectionDataIntoDb(electionData, db) {
-    db.serialize(() => {
-        initializeTables(tableSchemas, db);
-        const insertStatementPerTable = prepareInsertStatements(db, tableSchemas);
-        insertElectionDataIntoTables(db, insertStatementPerTable, electionData);
+  initializeTables(tableSchemas, db);
+  const insertStatementPerTable = prepareInsertStatements(db, tableSchemas);
+  insertElectionDataIntoTables(db, insertStatementPerTable, electionData);
 
-        db.close(() => {
-          console.log('Data imported');
-        });
-    });
+  db.close();
+  console.log('Data imported');
 }
 
 function initializeTables(tableSchemas, db) {
   for(const [tableName, columnSchemas] of Object.entries(tableSchemas)) {
     // Drop table if it already exists
-    db.run(`DROP TABLE IF EXISTS ${tableName}`);
+    db.exec(`DROP TABLE IF EXISTS ${tableName}`);
 
     const columnDefinitionsString = makeColumnDefinitions(columnSchemas);
 
     const createTableStatement = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitionsString})`;
     //console.log('-----------------')
-    db.run(createTableStatement);
+    db.exec(createTableStatement);
   }
   //console.log(tableSchemas);
 }
@@ -161,7 +158,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
   let precinctCodeToId = new Map();
   let candidateNameToId = new Map();
 
-  db.run('BEGIN TRANSACTION');
+  db.exec('BEGIN TRANSACTION');
 
   for(const valuePerColumn of electionData) {
     const county = valuePerColumn.County;
@@ -213,7 +210,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
 
 
   }
-  db.run('COMMIT');
+  db.exec('COMMIT');
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

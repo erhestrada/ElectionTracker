@@ -86,7 +86,7 @@ function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
         initializeTables(tableSchemas, db);
         const insertStatementPerTable = prepareInsertStatements(db, tableSchemas);
-        insertElectionData(db, insertStatementPerTable, electionData);
+        insertElectionDataIntoTables(db, insertStatementPerTable, electionData);
 
         db.close(() => {
           console.log('Data imported');
@@ -147,7 +147,7 @@ function prepareInsertStatements(db) {
   return insertStatementPerTable
 }
 
-function insertElectionData(db, insertStatementPerTable, electionData) {
+function insertElectionDataIntoTables(db, insertStatementPerTable, electionData) {
 
 }
 

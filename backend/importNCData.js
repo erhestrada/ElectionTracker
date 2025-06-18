@@ -85,20 +85,12 @@ function initializeDatabase(databaseFilePath) {
 function insertElectionDataIntoDb(electionData, db) {
     db.serialize(() => {
         initializeTables(tableSchemas, db);
-        const insertStatementPerTable = prepareInsertStatementsFromTableSchemas(db, tableSchemas);
+        const insertStatementPerTable = prepareInsertStatements(db, tableSchemas);
+        insertElectionData(db, insertStatementPerTable, electionData);
 
-
-        //setupElectionResultsTable(db);
-        //const insertStmt = prepareInsertStatement(db);
-        //insertElectionData(db, insertStmt, data);
-
-        /*
-        insertStmt.finalize();
         db.close(() => {
-          console.log(`✅ Data imported into the ${TABLE_NAME} table.`);
+          console.log('Data imported');
         });
-        */
-
     });
 }
 
@@ -153,6 +145,10 @@ function prepareInsertStatements(db) {
   };
 
   return insertStatementPerTable
+}
+
+function insertElectionData(db, insertStatementPerTable, electionData) {
+
 }
 
 importNorthCarolinaElectionResults(DATABASE_FILE_PATH, ELECTION_DATA_FILE_PATH);

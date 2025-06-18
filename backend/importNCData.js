@@ -153,6 +153,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
   let uniqueElectionDates = new Set();
   let uniquePrecincts = new Set();
   let uniqueContests = new Set();
+  let uniqueCandidates = new Set();
 
   db.run('BEGIN TRANSACTION');
 
@@ -166,6 +167,9 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const contestType = valuePerColumn['Contest Type'];
     const contestName = valuePerColumn['Contest Name'];
     const votesAllowed = valuePerColumn['Vote For'];
+
+    const candidate = valuePerColumn['Choice'];
+    const party = valuePerColumn['Choice Party'];
 
     if (!uniqueCounties.has(county)) {
       const countiesInsertStatement = insertStatementPerTable.counties;
@@ -188,10 +192,17 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     }
 
     const contestKey = `${contestGroupId} | ${contestType} | ${contestName} | ${votesAllowed}`;
-    if (! uniqueContests.has(contestKey)) {
+    if (!uniqueContests.has(contestKey)) {
       const contestsInsertStatement = insertStatementPerTable.contests;
       contestsInsertStatement.run(contestGroupId, contestType, contestName, votesAllowed);
       uniqueContests.add(contestKey);
+    }
+
+    const candidateKey = `${candidate} | ${party}`;
+    if (!uniqueCandidates.has(candidateKey)) {
+      const candidatesInsertStatement = insertStatementPerTable.candidates;
+      candidatesInsertStatement.run(candidate, party);
+      uniqueCandidates.add(candidateKey);
     }
 
 

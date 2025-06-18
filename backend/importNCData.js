@@ -155,6 +155,12 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
   let uniqueContests = new Set();
   let uniqueCandidates = new Set();
 
+  let electionDateToId = new Map();
+  let contestNameToId = new Map();
+  let countyNameToId = new Map();
+  let precinctCodeToId = new Map();
+  let candidateNameToId = new Map();
+
   db.run('BEGIN TRANSACTION');
 
   for(const valuePerColumn of electionData) {

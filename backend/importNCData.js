@@ -8,11 +8,11 @@ const DATABASE_FILE_PATH = './sandbox.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 
 const tableSchemas = {
-  elections: {
+  nc_elections: {
     election_id: { type: 'INTEGER', primaryKey: true },
     election_date: { type: 'DATE' }
   },
-  contests: {
+  nc_contests: {
     contest_id: { type: 'INTEGER', primaryKey: true },
     contest_group_id: { type: 'INTEGER' },
     contest_type: { type: 'TEXT' },
@@ -29,18 +29,18 @@ const tableSchemas = {
     county_id: { type: 'INTEGER' },
     real_precinct: { type: 'TEXT' }
   },
-  candidates: {
+  nc_candidates: {
     candidate_id: { type: 'INTEGER', primaryKey: true },
     name: { type: 'TEXT' },
     party: { type: 'TEXT' }
   },
   voting_methods: {
     vote_id: { type: 'INTEGER', primaryKey: true },
-    election_id: { type: 'INTEGER', foreignKey: 'elections.election_id' },
-    contest_id: { type: 'INTEGER', foreignKey: 'contests.contest_id' },
+    election_id: { type: 'INTEGER', foreignKey: 'nc_elections.election_id' },
+    contest_id: { type: 'INTEGER', foreignKey: 'nc_contests.contest_id' },
     county_id: { type: 'INTEGER', foreignKey: 'counties.county_id'},
     precinct_id: { type: 'INTEGER', foreignKey: 'precincts.precinct_id'},
-    candidate_id: { type: 'INTEGER', foreignKey: 'candidates.candidate_id'},
+    candidate_id: { type: 'INTEGER', foreignKey: 'nc_candidates.candidate_id'},
     method: { type: 'TEXT' },
     vote_count: { type: 'INTEGER' }
   }
@@ -95,6 +95,7 @@ function insertElectionDataIntoDb(electionData, db) {
 
 function initializeTables(tableSchemas, db) {
   db.exec('PRAGMA foreign_keys = OFF');
+  db.exec(`DROP TABLE IF EXISTS contests`);
 
   for(const [tableName, columnSchemas] of Object.entries(tableSchemas)) {
     // Drop table if it already exists
@@ -121,7 +122,7 @@ function makeColumnDefinitions(columnSchemas) {
     allColumnDefinitions.push(columnDefinitionString);
 
     // FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column)
-    // FOREIGN KEY(election_id) REFERENCES elections(election_id),
+    // FOREIGN KEY(election_id) REFERENCES nc_elections(election_id),
     if (columnProperties.foreignKey) {
       // e.g. candidates.candidate_id => candidates, candidate_id
       const [referenceTable, referenceColumn] = columnProperties.foreignKey.split('.');
@@ -137,11 +138,11 @@ function makeColumnDefinitions(columnSchemas) {
 }
 
 function prepareInsertStatements(db) {
-  const insertStatementPerTable = {elections: db.prepare(`INSERT INTO elections (election_date) VALUES (?)`),
-    contests: db.prepare(`INSERT INTO contests (contest_group_id, contest_type, contest_name, votes_allowed) VALUES (?, ?, ?, ?)`),
+  const insertStatementPerTable = {nc_elections: db.prepare(`INSERT INTO nc_elections (election_date) VALUES (?)`),
+    nc_contests: db.prepare(`INSERT INTO nc_contests (contest_group_id, contest_type, contest_name, votes_allowed) VALUES (?, ?, ?, ?)`),
     counties: db.prepare(`INSERT INTO counties (county_name) VALUES (?)`),
     precincts: db.prepare(`INSERT INTO precincts (precinct_code, county_id, real_precinct) VALUES (?, ?, ?)`),
-    candidates: db.prepare(`INSERT INTO candidates (name, party) VALUES (?, ?)`),
+    nc_candidates: db.prepare(`INSERT INTO nc_candidates (name, party) VALUES (?, ?)`),
     voting_methods: db.prepare(`INSERT INTO voting_methods (election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count) VALUES (?, ?, ?, ?, ?, ?, ?)`)
   };
 
@@ -192,7 +193,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     }
 
     if (!uniqueElectionDates.has(electionDate)) {
-      const electionInsertStatement = insertStatementPerTable.elections;
+      const electionInsertStatement = insertStatementPerTable.nc_elections;
       const insertElectionResult = electionInsertStatement.run(electionDate);
       const electionId = insertElectionResult.lastInsertRowid;
       electionDateToId.set(electionDate, electionId);
@@ -211,7 +212,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
 
     const contestKey = `${contestGroupId} | ${contestType} | ${contestName} | ${votesAllowed}`;
     if (!uniqueContests.has(contestKey)) {
-      const contestsInsertStatement = insertStatementPerTable.contests;
+      const contestsInsertStatement = insertStatementPerTable.nc_contests;
       const insertContestResult = contestsInsertStatement.run(contestGroupId, contestType, contestName, votesAllowed);
       const contestId = insertContestResult.lastInsertRowid;
       contestNameToId.set(contestName, contestId);
@@ -220,7 +221,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
 
     const candidateKey = `${candidate} | ${party}`;
     if (!uniqueCandidates.has(candidateKey)) {
-      const candidatesInsertStatement = insertStatementPerTable.candidates;
+      const candidatesInsertStatement = insertStatementPerTable.nc_candidates;
       const insertCandidateResult = candidatesInsertStatement.run(candidate, party);
       const candidateId = insertCandidateResult.lastInsertRowid;
       candidateNameToId.set(candidate, candidateId);

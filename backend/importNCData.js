@@ -174,6 +174,12 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const candidate = valuePerColumn['Choice'];
     const party = valuePerColumn['Choice Party'];
 
+    const electionDayVotes = valuePerColumn['Election Day'];
+    const earlyVotes = valuePerColumn['Early Voting'];
+    const absenteeMailVotes = valuePerColumn['Absentee by Mail'];
+    const provisionalVotes = valuePerColumn['Provisional'];
+    const totalVotes = valuePerColumn['Total Votes'];
+
     if (!uniqueCounties.has(county)) {
       const countiesInsertStatement = insertStatementPerTable.counties;
       const insertCountyResult = countiesInsertStatement.run(county);
@@ -217,6 +223,8 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
       candidateNameToId.set(candidate, candidateId);
       uniqueCandidates.add(candidateKey);
     }
+
+
 
   }
   db.exec('COMMIT');

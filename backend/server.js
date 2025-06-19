@@ -256,12 +256,17 @@ app.get('/results/:state/:candidate/electoral', (req, res) => {
   });
 });
 
+// delete this
 app.get('/results/county', (req, res) => {
   console.log('county endpoint hit');
   db.all('SELECT * FROM nc_county_election_results_2024', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });});
+
+app.get('/:state/counties', (req, res) => {
+  console.log('list counties endpoint hit');
+});
 
 // Start server
 app.listen(port, () => {

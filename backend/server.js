@@ -13,7 +13,7 @@ app.use(express.json());
 // Setup SQLite database
 const db = new sqlite3.Database('./data.db');
 
-//db.run('DROP TABLE users');
+//db.run('DROP TABLE nc_county_election_results_2024');
 //db.run('DROP TABLE election_results'); // can still use this for /results endpoint
 
 // create states table: state_code | state_name | electoral_votes

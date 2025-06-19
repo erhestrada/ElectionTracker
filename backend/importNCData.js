@@ -4,7 +4,8 @@
 const fs = require('fs');
 const Database = require('better-sqlite3');
 
-const DATABASE_FILE_PATH = './sandbox.db';
+//const DATABASE_FILE_PATH = './sandbox.db';
+const DATABASE_FILE_PATH = './data.db';
 const ELECTION_DATA_FILE_PATH = './NC_results_pct_20241105.txt'
 
 const tableSchemas = {

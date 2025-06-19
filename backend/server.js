@@ -273,6 +273,14 @@ app.get('/:state/counties', (req, res) => {
   });
 });
 
+app.get('/:state/candidates', (req, res) => {
+  console.log('list counties endpoint hit');
+  db.all('SELECT * FROM nc_candidates', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://192.168.86.195:${port}`);

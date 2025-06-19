@@ -1,4 +1,5 @@
 // TODO: add unique constraints to tables
+// don't think i need to do uniqueness checking because each row will have unique voting data - do it anyway for safety
 
 const fs = require('fs');
 const Database = require('better-sqlite3');

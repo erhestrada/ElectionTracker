@@ -227,18 +227,18 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     }
 
     const electionId = electionDateToId.get(electionDate);
-    const contestId = contestNameToId.get();
-    const countyId = countyNameToId.get();
-    const precinctId = precinctCodeToId.get();
-    const candidateId = candidateNameToId.get();
+    const contestId = contestNameToId.get(contestName);
+    const countyId = countyNameToId.get(county);
+    const precinctId = precinctCodeToId.get(precinctCode);
+    const candidateId = candidateNameToId.get(candidate);
 
     // don't think i need to do uniqueness checking because each row will have unique voting data - do it anyway for safety
     const votingMethodsInsertStatement = insertStatementPerTable.voting_methods;
     votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Election Day', electionDayVotes);
-    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Early Voting', earlyVotes);
-    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Absentee by Mail', absenteeMailVotes);
-    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Provisional', provisionalVotes);
-    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Total Votes', totalVotes);
+    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Early Voting', earlyVotes);
+    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Absentee by Mail', absenteeMailVotes);
+    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Provisional', provisionalVotes);
+    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Total Votes', totalVotes);
   }
   db.exec('COMMIT');
   //console.log(countyNameToId);

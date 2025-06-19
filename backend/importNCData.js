@@ -19,11 +19,11 @@ const tableSchemas = {
     contest_name: { type: 'TEXT' },
     votes_allowed: { type: 'INTEGER' }
   },
-  counties: {
+  nc_counties: {
     county_id: { type: 'INTEGER', primaryKey: true },
     county_name: { type: 'TEXT' }
   },
-  precincts: {
+  nc_precincts: {
     precinct_id: { type: 'INTEGER', primaryKey: true },
     precinct_code: { type: 'INTEGER' },
     county_id: { type: 'INTEGER' },
@@ -34,12 +34,12 @@ const tableSchemas = {
     name: { type: 'TEXT' },
     party: { type: 'TEXT' }
   },
-  voting_methods: {
+  nc_voting_methods: {
     vote_id: { type: 'INTEGER', primaryKey: true },
     election_id: { type: 'INTEGER', foreignKey: 'nc_elections.election_id' },
     contest_id: { type: 'INTEGER', foreignKey: 'nc_contests.contest_id' },
-    county_id: { type: 'INTEGER', foreignKey: 'counties.county_id'},
-    precinct_id: { type: 'INTEGER', foreignKey: 'precincts.precinct_id'},
+    county_id: { type: 'INTEGER', foreignKey: 'nc_counties.county_id'},
+    precinct_id: { type: 'INTEGER', foreignKey: 'nc_precincts.precinct_id'},
     candidate_id: { type: 'INTEGER', foreignKey: 'nc_candidates.candidate_id'},
     method: { type: 'TEXT' },
     vote_count: { type: 'INTEGER' }
@@ -95,7 +95,6 @@ function insertElectionDataIntoDb(electionData, db) {
 
 function initializeTables(tableSchemas, db) {
   db.exec('PRAGMA foreign_keys = OFF');
-  db.exec(`DROP TABLE IF EXISTS contests`);
 
   for(const [tableName, columnSchemas] of Object.entries(tableSchemas)) {
     // Drop table if it already exists
@@ -140,10 +139,10 @@ function makeColumnDefinitions(columnSchemas) {
 function prepareInsertStatements(db) {
   const insertStatementPerTable = {nc_elections: db.prepare(`INSERT INTO nc_elections (election_date) VALUES (?)`),
     nc_contests: db.prepare(`INSERT INTO nc_contests (contest_group_id, contest_type, contest_name, votes_allowed) VALUES (?, ?, ?, ?)`),
-    counties: db.prepare(`INSERT INTO counties (county_name) VALUES (?)`),
-    precincts: db.prepare(`INSERT INTO precincts (precinct_code, county_id, real_precinct) VALUES (?, ?, ?)`),
+    nc_counties: db.prepare(`INSERT INTO nc_counties (county_name) VALUES (?)`),
+    nc_precincts: db.prepare(`INSERT INTO nc_precincts (precinct_code, county_id, real_precinct) VALUES (?, ?, ?)`),
     nc_candidates: db.prepare(`INSERT INTO nc_candidates (name, party) VALUES (?, ?)`),
-    voting_methods: db.prepare(`INSERT INTO voting_methods (election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count) VALUES (?, ?, ?, ?, ?, ?, ?)`)
+    nc_voting_methods: db.prepare(`INSERT INTO nc_voting_methods (election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count) VALUES (?, ?, ?, ?, ?, ?, ?)`)
   };
 
   return insertStatementPerTable
@@ -185,7 +184,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const totalVotes = valuePerColumn['Total Votes'];
 
     if (!uniqueCounties.has(county)) {
-      const countiesInsertStatement = insertStatementPerTable.counties;
+      const countiesInsertStatement = insertStatementPerTable.nc_counties;
       const insertCountyResult = countiesInsertStatement.run(county);
       const countyId = insertCountyResult.lastInsertRowid;
       countyNameToId.set(county, countyId);
@@ -203,7 +202,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const precinctKey = `${precinctCode} | ${county} | ${realPrecinct}`;
 
     if (!uniquePrecincts.has(precinctKey)) {
-      const precinctsInsertStatement = insertStatementPerTable.precincts;
+      const precinctsInsertStatement = insertStatementPerTable.nc_precincts;
       const insertPrecinctResult = precinctsInsertStatement.run(precinctCode, county, realPrecinct); // refactor this and schema; county should be a foreign key using countyId
       const precinctId = insertPrecinctResult.lastInsertRowid;
       precinctCodeToId.set(precinctCode, precinctId);
@@ -235,7 +234,7 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     const candidateId = candidateNameToId.get(candidate);
 
     // don't think i need to do uniqueness checking because each row will have unique voting data - do it anyway for safety
-    const votingMethodsInsertStatement = insertStatementPerTable.voting_methods;
+    const votingMethodsInsertStatement = insertStatementPerTable.nc_voting_methods;
     votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Election Day', electionDayVotes);
     votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Early Voting', earlyVotes);
     votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Absentee by Mail', absenteeMailVotes);

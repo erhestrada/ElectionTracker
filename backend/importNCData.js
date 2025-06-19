@@ -93,6 +93,8 @@ function insertElectionDataIntoDb(electionData, db) {
 }
 
 function initializeTables(tableSchemas, db) {
+  db.exec('PRAGMA foreign_keys = OFF');
+
   for(const [tableName, columnSchemas] of Object.entries(tableSchemas)) {
     // Drop table if it already exists
     db.exec(`DROP TABLE IF EXISTS ${tableName}`);
@@ -103,7 +105,7 @@ function initializeTables(tableSchemas, db) {
     //console.log('-----------------')
     db.exec(createTableStatement);
   }
-  //console.log(tableSchemas);
+  db.exec('PRAGMA foreign_keys = ON');
 }
 
 function makeColumnDefinitions(columnSchemas) {
@@ -233,10 +235,10 @@ function insertElectionDataIntoTables(db, insertStatementPerTable, electionData)
     // don't think i need to do uniqueness checking because each row will have unique voting data - do it anyway for safety
     const votingMethodsInsertStatement = insertStatementPerTable.voting_methods;
     votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Election Day', electionDayVotes);
-    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Early Voting', earlyVotes);
-    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Absentee by Mail', absenteeMailVotes);
-    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Provisional', provisionalVotes);
-    votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Total Votes', totalVotes);
+    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Early Voting', earlyVotes);
+    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Absentee by Mail', absenteeMailVotes);
+    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Provisional', provisionalVotes);
+    //votingMethodsInsertStatement.run(electionId, contestId, countyId, precinctId, candidateId, 'Total Votes', totalVotes);
   }
   db.exec('COMMIT');
   //console.log(countyNameToId);

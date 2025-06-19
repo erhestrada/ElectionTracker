@@ -262,10 +262,15 @@ app.get('/results/county', (req, res) => {
   db.all('SELECT * FROM nc_county_election_results_2024', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
-  });});
+  });
+});
 
 app.get('/:state/counties', (req, res) => {
   console.log('list counties endpoint hit');
+  db.all('SELECT * FROM nc_counties', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
 // Start server

@@ -256,6 +256,8 @@ app.get('/results/:state/:candidate/electoral', (req, res) => {
   });
 });
 
+// ---------------------------- NC Counties Endpoints ------------------------------
+
 app.get('/:state/counties', (req, res) => {
   console.log('list counties endpoint hit');
   db.all('SELECT * FROM nc_counties', (err, rows) => {
@@ -271,6 +273,30 @@ app.get('/:state/candidates', (req, res) => {
     res.json(rows);
   });
 });
+
+// contests
+
+// precincts
+
+// votes allowed
+
+// votes -- election day
+
+// votes - early
+
+// votes - absentee
+
+// votes - total
+
+// candidate party
+
+// contest type
+
+// contest group id
+
+// election date
+
+// real precinct
 
 // Start server
 app.listen(port, () => {

@@ -288,9 +288,32 @@ app.get('/:state/precincts', (req, res) => {
   console.log('state-precincts endpoint hit')
   db.all('SELECT precinct_id, precinct_code, county_id, real_precinct FROM nc_precincts', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
+    console.log(rows.slice(0,4));
+    const precinctDataPerCounty = groupPrecinctDataByCounty(rows);
+
+    res.json(precinctDataPerCounty);
   });
 });
+
+function groupPrecinctDataByCounty(rows) {
+  const precinctDataPerCounty = {};
+
+  rows.forEach(row => {
+    const county = row.county_id;
+    
+    if (!precinctDataPerCounty[county]) {
+      precinctDataPerCounty[county] = { precincts: [] };
+    }
+
+    precinctDataPerCounty[county].precincts.push({
+      id: row.precinct_id,
+      code: row.precinct_code,
+      realPrecinct: row.real_precinct
+    });
+  });
+
+  return precinctDataPerCounty;
+}
 
 // votes allowed
 app.get('/:state/votes-allowed', (req, res) => {

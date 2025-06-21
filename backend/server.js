@@ -329,8 +329,9 @@ app.get('/:state/election-day-votes', (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
 
   db.all(
-    `SELECT vote_id, election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count 
-     FROM nc_voting_methods 
+    `SELECT vote.vote_id, vote.election_id, vote.contest_id, vote.county_id, vote.precinct_id, vote.candidate_id, vote.method, vote.vote_count 
+     FROM nc_voting_methods vote
+     JOIN nc_candidates candidate ON vote.candidate_id = candidate.candidate_id
      WHERE method = ? 
      LIMIT ? OFFSET ?`,
     ['Election Day', limit, offset],
@@ -340,6 +341,7 @@ app.get('/:state/election-day-votes', (req, res) => {
     }
   );
 });
+
 
 // votes - early
 app.get('/:state/early-votes', (req, res) => {

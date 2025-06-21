@@ -275,28 +275,66 @@ app.get('/:state/candidates', (req, res) => {
 });
 
 // contests
+app.get('/:state/contests', (req, res) => {
+  console.log('state-contests endpoint hit')
+});
 
 // precincts
+app.get('/:state/precincts', (req, res) => {
+  console.log('state-precincts endpoint hit')
+});
 
 // votes allowed
+app.get('/:state/votes-allowed', (req, res) => {
+  console.log('votes allowed endpoint hit')
+});
 
 // votes -- election day
+app.get('/:state/election-day-votes', (req, res) => {
+  console.log('state election day votes endpoint hit')
+});
 
 // votes - early
+app.get('/:state/early-votes', (req, res) => {
+  console.log('state-contests endpoint hit')
+});
 
 // votes - absentee
+app.get('/:state/absentee-votes', (req, res) => {
+  console.log('state-contests endpoint hit')
+});
 
 // votes - total
+app.get('/:state/total-votes', (req, res) => {
+  console.log('state-contests endpoint hit')
+});
 
 // candidate party
+app.get('/:state/:candidate/party', (req, res) => {
+  console.log('state candidate party endpoint hit')
+});
 
 // contest type
+app.get('/:state/:contest/type', (req, res) => {
+  console.log('state-contest type endpoint hit')
+});
 
 // contest group id
+app.get('/:state/:contest/group-id', (req, res) => {
+  console.log('state-contest group id endpoint hit')
+});
 
 // election date
+app.get('/:state/:contest/election-date', (req, res) => {
+  console.log('state-contest election date endpoint hit')
+});
 
 // real precinct
+app.get('/:state/:contest/real-precinct', (req, res) => {
+  console.log('state-contest real precinct endpoint hit')
+});
+
+// ---------------------------- NC Counties Endpoints ------------------------------
 
 // Start server
 app.listen(port, () => {

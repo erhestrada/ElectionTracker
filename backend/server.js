@@ -277,6 +277,10 @@ app.get('/:state/candidates', (req, res) => {
 // contests
 app.get('/:state/contests', (req, res) => {
   console.log('state-contests endpoint hit')
+  db.all('SELECT contest_name from nc_contests', (error, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
 // precincts

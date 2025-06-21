@@ -275,6 +275,7 @@ app.get('/:state/candidates', (req, res) => {
 });
 
 // contests
+// request specific fields with query params or use filtering, e.g.: /contests?fields=contest_id,votes_allowed
 app.get('/:state/contests', (req, res) => {
   console.log('state-contests endpoint hit')
   db.all('SELECT contest_id, contest_name, contest_group_id, contest_type, votes_allowed from nc_contests', (err, rows) => {
@@ -315,14 +316,29 @@ function groupPrecinctDataByCounty(rows) {
   return precinctDataPerCounty;
 }
 
-// votes allowed
+// votes allowed - return this data in contests endpoint
 app.get('/:state/votes-allowed', (req, res) => {
   console.log('votes allowed endpoint hit')
 });
 
 // votes -- election day
 app.get('/:state/election-day-votes', (req, res) => {
-  console.log('state election day votes endpoint hit')
+  console.log('state election day votes endpoint hit');
+
+  const limit = parseInt(req.query.limit) || 1000;
+  const offset = parseInt(req.query.offset) || 0;
+
+  db.all(
+    `SELECT vote_id, election_id, contest_id, county_id, precinct_id, candidate_id, method, vote_count 
+     FROM nc_voting_methods 
+     WHERE method = ? 
+     LIMIT ? OFFSET ?`,
+    ['Election Day', limit, offset],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
 });
 
 // votes - early

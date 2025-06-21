@@ -286,6 +286,10 @@ app.get('/:state/contests', (req, res) => {
 // precincts
 app.get('/:state/precincts', (req, res) => {
   console.log('state-precincts endpoint hit')
+  db.all('SELECT precinct_id, precinct_code, county_id, real_precinct FROM nc_precincts', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
 // votes allowed

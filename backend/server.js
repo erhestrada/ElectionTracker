@@ -329,7 +329,7 @@ app.get('/:state/election-day-votes', (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
 
   db.all(
-    `SELECT vote.vote_id, vote.election_id, vote.contest_id, vote.county_id, vote.precinct_id, vote.candidate_id, vote.method, vote.vote_count 
+    `SELECT vote.vote_id, vote.election_id, vote.contest_id, vote.county_id, vote.precinct_id, candidate.name, vote.method, vote.vote_count 
      FROM nc_voting_methods vote
      JOIN nc_candidates candidate ON vote.candidate_id = candidate.candidate_id
      WHERE method = ? 

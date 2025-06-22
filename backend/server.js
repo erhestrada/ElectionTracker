@@ -332,6 +332,7 @@ app.get('/:state/election-day-votes', (req, res) => {
     `SELECT vote.vote_id, vote.election_id, vote.contest_id, vote.county_id, vote.precinct_id, candidate.name, vote.method, vote.vote_count 
      FROM nc_voting_methods vote
      JOIN nc_candidates candidate ON vote.candidate_id = candidate.candidate_id
+     JOIN nc_counties county on vote.county_id = county.county_id 
      WHERE method = ? 
      LIMIT ? OFFSET ?`,
     ['Election Day', limit, offset],

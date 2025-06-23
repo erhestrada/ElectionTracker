@@ -427,17 +427,20 @@ app.get('/:state/total-votes', (req, res) => {
 // get all candidates of a given party
 app.get('/:state/:candidate/party', (req, res) => {
   const rawCandidate = req.params.candidate;
-  const candidate = rawCandidate
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-  //const candidate = 'Jill Stein';
 
-  console.log('state candidate party endpoint hit')
-  db.all(`SELECT party FROM nc_candidates WHERE name = ?`, [candidate], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+  const searchTerm = rawCandidate
+    .split('-')
+    .join(' ')
+    .toLowerCase();
+
+  db.all(
+    `SELECT name, party FROM nc_candidates WHERE LOWER(name) LIKE ?`,
+    [`%${searchTerm}%`],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
 });
 
 // contest type

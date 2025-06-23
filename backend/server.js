@@ -349,7 +349,27 @@ app.get('/:state/election-day-votes', (req, res) => {
 
 // votes - early
 app.get('/:state/early-votes', (req, res) => {
-  console.log('state-contests endpoint hit')
+  console.log('state early votes endpoint hit');
+
+  const limit = parseInt(req.query.limit) || 1000;
+  const offset = parseInt(req.query.offset) || 0;
+
+  db.all(
+    `SELECT vote.vote_id, election.election_date, contest.contest_name, county.county_name, precinct.precinct_code, candidate.name, vote.method, vote.vote_count 
+     FROM nc_voting_methods vote
+     JOIN nc_candidates candidate ON vote.candidate_id = candidate.candidate_id
+     JOIN nc_counties county on vote.county_id = county.county_id 
+     JOIN nc_contests contest on vote.contest_id = contest.contest_id 
+     JOIN nc_elections election on vote.election_id = election.election_id 
+     JOIN nc_precincts precinct on vote.precinct_id = precinct.precinct_id 
+     WHERE method = ? 
+     LIMIT ? OFFSET ?`,
+    ['Early Voting', limit, offset],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
 });
 
 // votes - absentee

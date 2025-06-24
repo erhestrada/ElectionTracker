@@ -443,9 +443,25 @@ app.get('/:state/:candidate/party', (req, res) => {
   );
 });
 
-// contest type
-app.get('/:state/:contest/type', (req, res) => {
+// contest information
+app.get('/:state/:contest', (req, res) => {
   console.log('state-contest type endpoint hit')
+  const contest = req.params.contest;
+
+  const searchTerm = contest
+  .split('-')
+  .join(' ')
+  .toLowerCase();
+  
+  db.all(
+    `SELECT contest_name, contest_id, contest_group_id, contest_type, votes_allowed FROM nc_contests WHERE LOWER(contest_name) LIKE ?`,
+    [`%${searchTerm}%`],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
+
 });
 
 // contest group id

@@ -464,11 +464,6 @@ app.get('/:state/:contest', (req, res) => {
 
 });
 
-// contest group id
-app.get('/:state/:contest/group-id', (req, res) => {
-  console.log('state-contest group id endpoint hit')
-});
-
 // election date
 app.get('/:state/:contest/election-date', (req, res) => {
   console.log('state-contest election date endpoint hit')

@@ -457,6 +457,7 @@ app.get('/:state/:candidate/party', (req, res) => {
 });
 
 // get all candidates of a given party
+// get candidates WHERE party = ?
 
 // contest information
 app.get('/:state/:contest', (req, res) => {
@@ -480,11 +481,14 @@ app.get('/:state/:contest', (req, res) => {
 });
 
 // election date - should have foreign key in contests to include date data
+// placeholder - refactor tables to use foreign key and return this information with contests
 app.get('/:state/:contest/election-date', (req, res) => {
   console.log('state-contest election date endpoint hit')
+  db.all('SELECT * FROM nc_elections', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
-
-
 
 // ---------------------------- NC Counties Endpoints ------------------------------
 

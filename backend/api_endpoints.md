@@ -41,13 +41,13 @@ GET /results/tx
 | GET    | `/:state/contests`           | Get all election contests in state
 | GET    | `/:state/precincts`           | Get all precincts in state
 | GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | Get election day votes
-
-
-
-
-| GET    | `/results/:state/district`    | Get district results
-| GET    | `/results/:state/precinct`    | Get district results
-
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get early votes
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get absentee votes
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get total votes
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get candidate
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get contest info
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get election date (refactor)
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get precincts
 
 ---
 

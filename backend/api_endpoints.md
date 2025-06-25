@@ -40,16 +40,16 @@ GET /results/tx
 | GET    | `/:state/candidates`        | Get candidates and their party in state
 | GET    | `/:state/contests`           | Get all election contests in state
 | GET    | `/:state/precincts`           | Get all precincts in state
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | Get election day votes
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get early votes
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get absentee votes
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get total votes
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get candidate
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get contest info
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get election date (refactor)
-| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | get precincts
+| GET    | `/:state/:county/precincts`           | Get precincts for county
+| GET    | `/:state/election-day-votes?limit={limit}&offset={offset]}`           | Get election day votes
+| GET    | `/:state/early-votes?limit={limit}&offset={offset]}`           | Get early votes
+| GET    | `/:state/absentee-mail-votes?limit={limit}&offset={offset]}`           | Get absentee votes
+| GET    | `/:state/total-votes?limit={limit}&offset={offset]}`           | Get total votes (refactor to sum)
+| GET    | `/:state/party`           | Get candidate party
+| GET    | `/:state/:contest`           | Get contest info
+| GET    | `/:state/:contest/election-date`           | Get election date (refactor to include with contest info)
 
----
+---(TBD)---
 
 ## 📆 Year Filter
 

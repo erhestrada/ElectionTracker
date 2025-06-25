@@ -286,14 +286,28 @@ app.get('/:state/contests', (req, res) => {
 
 // precincts
 app.get('/:state/precincts', (req, res) => {
-  console.log('state-precincts endpoint hit')
+  console.log('state-precincts endpoint hit');
   db.all('SELECT precinct_id, precinct_code, county_id, real_precinct FROM nc_precincts', (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
-    console.log(rows.slice(0,4));
     const precinctDataPerCounty = groupPrecinctDataByCounty(rows);
 
     res.json(precinctDataPerCounty);
   });
+});
+
+// get all precincts for county
+app.get('/:state/:county/precincts', (req, res) => {
+  const county = req.params.county;
+
+  console.log('county-precincts endpoint hit');
+  db.all('SELECT precinct_id, precinct_code, county_id, real_precinct FROM nc_precincts', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    const precinctDataPerCounty = groupPrecinctDataByCounty(rows);
+
+    res.json({[county]: precinctDataPerCounty[county]});
+  });
+
+
 });
 
 function groupPrecinctDataByCounty(rows) {
@@ -318,7 +332,7 @@ function groupPrecinctDataByCounty(rows) {
 
 // votes allowed - return this data in contests endpoint
 app.get('/:state/votes-allowed', (req, res) => {
-  console.log('votes allowed endpoint hit')
+  console.log('votes allowed endpoint hit');
 });
 
 // votes -- election day
@@ -424,7 +438,6 @@ app.get('/:state/total-votes', (req, res) => {
 });
 
 // candidate party
-// get all candidates of a given party
 app.get('/:state/:candidate/party', (req, res) => {
   const rawCandidate = req.params.candidate;
 
@@ -442,6 +455,8 @@ app.get('/:state/:candidate/party', (req, res) => {
     }
   );
 });
+
+// get all candidates of a given party
 
 // contest information
 app.get('/:state/:contest', (req, res) => {
@@ -464,15 +479,12 @@ app.get('/:state/:contest', (req, res) => {
 
 });
 
-// election date
+// election date - should have foreign key in contests to include date data
 app.get('/:state/:contest/election-date', (req, res) => {
   console.log('state-contest election date endpoint hit')
 });
 
-// real precinct
-app.get('/:state/:contest/real-precinct', (req, res) => {
-  console.log('state-contest real precinct endpoint hit')
-});
+
 
 // ---------------------------- NC Counties Endpoints ------------------------------
 

@@ -36,7 +36,15 @@ GET /results/tx
 
 | Method | Endpoint          | Description                     |
 |--------|-------------------|---------------------------------|
-| GET    | `/results/:state/county`        | Get county results
+| GET    | `/:state/counties`        | Get counties in state
+| GET    | `/:state/candidates`        | Get candidates and their party in state
+| GET    | `/:state/contests`           | Get all election contests in state
+| GET    | `/:state/precincts`           | Get all precincts in state
+| GET    | `/:state/-election-day-votes?limit={limit}&offset={offset]}`           | Get election day votes
+
+
+
+
 | GET    | `/results/:state/district`    | Get district results
 | GET    | `/results/:state/precinct`    | Get district results
 
